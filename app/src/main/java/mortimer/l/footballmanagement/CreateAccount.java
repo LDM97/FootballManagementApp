@@ -55,6 +55,10 @@
 
             // Get Firebase authenticator
             auth = FirebaseAuth.getInstance();
+
+            getSupportActionBar().setTitle( "Login" );
+
+
         }
 
         @Override
