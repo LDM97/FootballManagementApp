@@ -180,7 +180,6 @@
 
         private void signOut()
         {
-            userStatus.setText( "WTF" );
             auth.signOut();
             checkLogin( null );
         }
@@ -199,7 +198,7 @@
             }
             else
             {
-                emailInput.setError(null);
+                emailInput.setError( null );
             }
 
             // Check there is a password input
