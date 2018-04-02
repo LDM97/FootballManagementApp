@@ -25,6 +25,7 @@
 
         private EditText emailInput;
         private EditText passwordInput;
+
         private Button createAccountBtn;
         private Button signInBtn;
 
