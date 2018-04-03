@@ -11,6 +11,7 @@
     import android.util.Log;
     import android.text.TextUtils;
     import android.widget.Toast;
+    import android.content.Intent;
 
     import com.google.android.gms.tasks.OnCompleteListener;
     import com.google.android.gms.tasks.Task;
@@ -38,12 +39,15 @@
         protected void onCreate( Bundle savedInstanceState )
         {
             super.onCreate( savedInstanceState );
-            setContentView( R.layout.activity_create_account );
+            setContentView( R.layout.activity_login);
 
             // Custom toolbar
-            Toolbar custToolBar = (Toolbar) findViewById(R.id.my_toolbar);
+            Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
             setSupportActionBar( custToolBar );
             getSupportActionBar().setDisplayShowTitleEnabled( false );
+
+            TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
+            actionBarTitle.setText( "Login" );
 
             // Views
             emailInput = findViewById( R.id.emailInput );
@@ -224,7 +228,9 @@
             {
                 case ( R.id.createAccountBtn ):
 
-                    createAccount( emailInput.getText().toString(), passwordInput.getText().toString() );
+                    // createAccount( emailInput.getText().toString(), passwordInput.getText().toString() );
+                    Intent createAccountActivity = new Intent( getApplicationContext(), CreateAccount.class );
+                    startActivity( createAccountActivity );
 
                 case ( R.id.logoutBtn ):
 
