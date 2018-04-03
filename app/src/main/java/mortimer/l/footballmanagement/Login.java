@@ -3,6 +3,7 @@
     import android.support.v7.app.AppCompatActivity;
     import android.os.Bundle;
 
+    import android.support.v7.widget.Toolbar;
     import android.view.View;
     import android.widget.Button;
     import android.widget.EditText;
@@ -18,7 +19,7 @@
     import com.google.firebase.auth.FirebaseAuth;
     import com.google.firebase.auth.FirebaseUser;
 
-    public class CreateAccount extends AppCompatActivity implements View.OnClickListener
+    public class Login extends AppCompatActivity implements View.OnClickListener
     {
         private static final String TAG = "EmailPassword";
 
@@ -39,6 +40,11 @@
             super.onCreate( savedInstanceState );
             setContentView( R.layout.activity_create_account );
 
+            // Custom toolbar
+            Toolbar custToolBar = (Toolbar) findViewById(R.id.my_toolbar);
+            setSupportActionBar( custToolBar );
+            getSupportActionBar().setDisplayShowTitleEnabled( false );
+
             // Views
             emailInput = findViewById( R.id.emailInput );
             passwordInput = findViewById( R.id.passwordInput );
@@ -55,10 +61,6 @@
 
             // Get Firebase authenticator
             auth = FirebaseAuth.getInstance();
-
-            getSupportActionBar().setTitle( "Login" );
-
-
         }
 
         @Override
@@ -133,7 +135,7 @@
                             {
                                 // If sign in fails, display a message to the user.
                                 Log.w( TAG, "createUserWithEmail:failure", task.getException() );
-                                Toast.makeText( CreateAccount.this, "Failed to create Account.",
+                                Toast.makeText( Login.this, "Failed to create Account.",
                                         Toast.LENGTH_SHORT).show();
                                 checkLogin( null );
                             }
@@ -167,17 +169,11 @@
                             {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText( CreateAccount.this, "Sign in Failed.",
+                                Toast.makeText( Login.this, "Sign in Failed.",
                                         Toast.LENGTH_SHORT ).show();
                                 checkLogin( null );
                             }
 
-                            /*
-                            if ( !task.isSuccessful() )
-                            {
-                                mStatusTextView.setText(R.string.auth_failed);
-                            }
-                            */
                         }
                     });
         }
@@ -237,16 +233,7 @@
                 case ( R.id.signInBtn ):
                     signIn( emailInput.getText().toString(), passwordInput.getText().toString() );
             }
-            /*
-            else if ( i == R.id.email_sign_in_button )
-            {
-                signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-            }
-            else if (i == R.id.verify_email_button)
-            {
-                sendEmailVerification();
-            }
-            */
+
         }
 
     }
