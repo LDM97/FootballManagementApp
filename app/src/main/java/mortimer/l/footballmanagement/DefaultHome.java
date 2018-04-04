@@ -10,12 +10,21 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.support.v4.widget.DrawerLayout;
+import android.support.design.widget.NavigationView;
+import android.view.MenuItem;
+import android.view.Menu;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class DefaultHome extends AppCompatActivity implements View.OnClickListener {
 
+
     private FirebaseAuth auth;
+
+    private DrawerLayout navDraw;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +40,34 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
         TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
         actionBarTitle.setText( "Home" );
 
-        // Button listener
-        findViewById( R.id.logoutBtn ).setOnClickListener( this );
-        findViewById( R.id.navBarBtn ).setOnClickListener( this );
-
         // Get Firebase authenticator
         auth = FirebaseAuth.getInstance();
 
-        findViewById( R.id.navigationView ).setVisibility( View.GONE );
+        // Nav Draw code
+        navDraw = findViewById( R.id.drawer_layout );
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener
+                (
+                new NavigationView.OnNavigationItemSelectedListener()
+                {
+                    @Override
+                    public boolean onNavigationItemSelected( MenuItem menuItem ) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        navDraw.closeDrawers();
+
+                        // Add code here to update the UI based on the item selected
+                        if( menuItem.getItemId() == R.id.logout )
+                        { // If logout option pressed on navbar, signout the user.
+                            signOut();
+                        }
+                        // For example, swap UI fragments here
+
+                        return true;
+                    }
+                });
     }
 
     @Override
@@ -80,15 +109,7 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick( View v )
     {
-        if( v.getId() == R.id.logoutBtn )
-        {
-            signOut();
-        }
-
-        if( v.getId() == R.id.navBarBtn )
-        {
-            findViewById( R.id.navigationView ).setVisibility( View.VISIBLE );
-        }
+        return;
     }
 
 }
