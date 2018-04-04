@@ -55,12 +55,8 @@
             createAccountBtn = findViewById( R.id.createAccountBtn );
             signInBtn = findViewById( R.id.signInBtn );
 
-            userStatus = findViewById( R.id.userStatus );
-            logoutBtn = findViewById( R.id.logoutBtn );
-
             // Buttons
             findViewById( R.id.createAccountBtn ).setOnClickListener( this );
-            findViewById( R.id.logoutBtn ).setOnClickListener( this );
             findViewById( R.id.signInBtn ).setOnClickListener( this );
 
             // Get Firebase authenticator
@@ -71,7 +67,7 @@
         public void onStart()
         {
             super.onStart();
-            // Check if user is signed in (non-null) and update UI accordingly.
+            // Check if user is signed in (non-null) and update UI accordingly
             FirebaseUser currentUser = auth.getCurrentUser();
             checkLogin( currentUser );
         }
@@ -81,9 +77,10 @@
             if ( user != null )
             { // User is already logged in
 
-                // Notify the user
-                userStatus.setText( "You are logged in!" );
-
+                // Send user to logged in home screen
+                Intent defaultHomeScreen = new Intent( getApplicationContext(), DefaultHome.class );
+                startActivity( defaultHomeScreen );
+                /* ----
                 // Hide login options
                 findViewById( R.id.emailInput ).setVisibility( View.GONE );
                 findViewById( R.id.passwordInput ).setVisibility( View.GONE );
@@ -93,6 +90,7 @@
                 // Show status and logout options
                 findViewById( R.id.userStatus ).setVisibility( View.VISIBLE );
                 findViewById( R.id.logoutBtn ).setVisibility( View.VISIBLE );
+                ---- */
 
             }
             else
@@ -104,47 +102,7 @@
                 findViewById( R.id.createAccountBtn ).setVisibility( View.VISIBLE );
                 findViewById( R.id.signInBtn ).setVisibility( View.VISIBLE );
 
-                // Hide the status and logout options
-                findViewById( R.id.userStatus ).setVisibility( View.GONE );
-                findViewById( R.id.logoutBtn ).setVisibility( View.GONE );
             }
-        }
-
-        private void createAccount(String email, String password)
-        {
-            // Check the inputs are there and valid
-            Log.d( TAG, "createAccount:" + email );
-            if ( !validateForm() ) {
-                return;
-            }
-
-            auth.createUserWithEmailAndPassword( email, password )
-                    .addOnCompleteListener( this, new OnCompleteListener<AuthResult>()
-                    {
-                        @Override
-                        public void onComplete( @NonNull Task<AuthResult> task )
-                        {
-                            if ( task.isSuccessful() )
-                            {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d( TAG, "createUserWithEmail:success" );
-                                FirebaseUser user = auth.getCurrentUser();
-                                checkLogin( user );
-
-                                // Login successful, clear the login details.
-                                emailInput.setText( "" );
-                                passwordInput.setText( "" );
-                            }
-                            else
-                            {
-                                // If sign in fails, display a message to the user.
-                                Log.w( TAG, "createUserWithEmail:failure", task.getException() );
-                                Toast.makeText( Login.this, "Failed to create Account.",
-                                        Toast.LENGTH_SHORT).show();
-                                checkLogin( null );
-                            }
-                        }
-                    } );
         }
 
         private void signIn( String email, String password ) {
@@ -180,12 +138,6 @@
 
                         }
                     });
-        }
-
-        private void signOut()
-        {
-            auth.signOut();
-            checkLogin( null );
         }
 
         private boolean validateForm()
@@ -228,13 +180,8 @@
             {
                 case ( R.id.createAccountBtn ):
 
-                    // createAccount( emailInput.getText().toString(), passwordInput.getText().toString() );
                     Intent createAccountActivity = new Intent( getApplicationContext(), CreateAccount.class );
                     startActivity( createAccountActivity );
-
-                case ( R.id.logoutBtn ):
-
-                    signOut();
 
                 case ( R.id.signInBtn ):
                     signIn( emailInput.getText().toString(), passwordInput.getText().toString() );
