@@ -2,8 +2,6 @@ package mortimer.l.footballmanagement;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,7 +11,8 @@ import android.widget.Toast;
 import android.support.v4.widget.DrawerLayout;
 import android.support.design.widget.NavigationView;
 import android.view.MenuItem;
-import android.view.Menu;
+import android.support.v7.app.ActionBar;
+import android.support.v4.view.GravityCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,7 +23,6 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
     private FirebaseAuth auth;
 
     private DrawerLayout navDraw;
-    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +33,16 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
         // Custom toolbar
         Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
         setSupportActionBar( custToolBar );
-        getSupportActionBar().setDisplayShowTitleEnabled( false );
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled( false );
 
         TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
         actionBarTitle.setText( "Home" );
+
+        actionBar.setDisplayHomeAsUpEnabled( true );
+        actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
+
 
         // Get Firebase authenticator
         auth = FirebaseAuth.getInstance();
@@ -46,7 +50,18 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
         // Nav Draw code
         navDraw = findViewById( R.id.drawer_layout );
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById( R.id.nav_view );
+
+        /*
+        // ==================================================
+        // View header = new NavigationView( this );
+        NavigationView navView = ( NavigationView ) findViewById( R.id.nav_view );
+        View headerView =  navView.getHeaderView( 0 );
+        headerView.inflate;
+        // TextView nav_user = (TextView) headerView.findViewById( R.id.nav_name );
+        // nav_user.setText( "Hello World" );
+        */
+
         navigationView.setNavigationItemSelectedListener
                 (
                 new NavigationView.OnNavigationItemSelectedListener()
@@ -59,15 +74,30 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
                         navDraw.closeDrawers();
 
                         // Add code here to update the UI based on the item selected
+
+                        /*
                         if( menuItem.getItemId() == R.id.logout )
-                        { // If logout option pressed on navbar, signout the user.
+                        {
                             signOut();
                         }
-                        // For example, swap UI fragments here
+                        */
 
                         return true;
                     }
                 });
+
+        // Set logout navbar listener
+        View navBarLogout = findViewById( R.id.navLogout );
+        navBarLogout.setOnClickListener( this );
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( MenuItem item ) {
+        if ( item.getItemId() == android.R.id.home ) {
+                navDraw.openDrawer( GravityCompat.START );
+                return true;
+        }
+        return super.onOptionsItemSelected( item );
     }
 
     @Override
@@ -109,7 +139,10 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick( View v )
     {
-        return;
+        if ( v.getId() == R.id.navLogout )
+        {
+            signOut();
+        }
     }
 
 }

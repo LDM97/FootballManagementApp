@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group >
+
         <item
-            android:id="@+id/logout"
-            android:title="Logout"
-            android:text="Logout" />
-            <!-- android:icon="@drawable/ic_menu_camera" -->
+            android:id="@+id/teamCalendar"
+            android:title="Team Calendar" />
+
+        <item
+            android:id="@+id/discussionBoard"
+            android:title="Discussion Board" />
+
+        <item
+            android:id="@+id/teamInfo"
+            android:title="Team Info" />
+
     </group>
 </menu>
