@@ -63,6 +63,9 @@
 
             // Get Firebase authenticator
             auth = FirebaseAuth.getInstance();
+
+            // Hide the home button
+            findViewById( R.id.homeBtn ).setVisibility( View.GONE );
         }
 
         private void createAccount( String email, String password )
@@ -224,10 +227,7 @@
             if ( v.getId() == R.id.createNewAccBtn )
             {
                     createAccount( emailInput.getText().toString(), passwordInput.getText().toString() );
-                    // Intent createAccountActivity = new Intent(getApplicationContext(), CreateAccount.class);
-                    // startActivity(createAccountActivity);
             }
-
 
         }
 

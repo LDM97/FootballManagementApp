@@ -42,8 +42,9 @@ public class TeamInfo extends AppCompatActivity implements View.OnClickListener
         // Get Firebase authenticator
         auth = FirebaseAuth.getInstance();
 
-        // Setup logout button
+        // Setup logout button and home button
         findViewById( R.id.navLogout ).setOnClickListener( this );
+        findViewById( R.id.homeBtn ).setOnClickListener( this );
 
         // Nav drawer code
         navDraw = findViewById( R.id.drawer_layout );
@@ -101,5 +102,12 @@ public class TeamInfo extends AppCompatActivity implements View.OnClickListener
             View thisView = findViewById(android.R.id.content);
             navDrawerHandler.signOut( thisView.getContext() );
         }
+
+        if( v.getId() == R.id.homeBtn )
+        {
+            Intent homeScreenActivity = new Intent( getApplicationContext(), DefaultHome.class );
+            startActivity( homeScreenActivity );
+        }
+
     }
 }

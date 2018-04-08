@@ -18,6 +18,15 @@
         android:textColor="@color/colorAccent"
         android:textAlignment="gravity">
 
+        <ImageButton
+            android:id="@+id/homeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_icon"
+            android:layout_gravity="right"
+            android:background="@null"
+            android:layout_margin="10dp"/>
+
         <TextView
             android:id="@+id/toolbarTitle"
             android:layout_width="wrap_content"
@@ -28,6 +37,7 @@
             android:textStyle="bold"
             tools:layout_editor_absoluteX="176dp"
             tools:layout_editor_absoluteY="19dp" />
+
 
     </android.support.v7.widget.Toolbar>
 

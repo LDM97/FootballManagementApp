@@ -31,7 +31,9 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".TeamCalendar" />
         <activity android:name=".DiscussionBoard" />
-        <activity android:name=".TeamInfo"></activity>
+        <activity android:name=".TeamInfo" />
+        <activity android:name=".CreateTeam" />
+        <activity android:name=".NoTeamHome"></activity>
     </application>
 
 </manifest>

@@ -2,11 +2,17 @@
 
     public class User
     {
-        public String userID;
-        public String name;
-        public String email;
-        public String preferredPositions;
-        public String bio;
+        private String userID;
+        private String name;
+        private String email;
+        private String preferredPositions;
+        private String bio;
+        private boolean teamOrganiser;
+
+        public User ()
+        {
+            // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        }
 
         public User( String uid, String nameInput, String emailInput, String prefPositionsInput, String bioInput )
         {
@@ -72,6 +78,11 @@
         {
             this.bio = bio;
         }
+
+        // Team organiser get and setters
+        public boolean getTeamOrganiser() { return this.teamOrganiser; }
+
+        public void setTeamOrganiser( boolean teamOrganiser ) { this.teamOrganiser = teamOrganiser; }
 
 
     }

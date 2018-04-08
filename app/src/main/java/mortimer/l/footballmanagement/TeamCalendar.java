@@ -40,8 +40,9 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
         actionBar.setDisplayHomeAsUpEnabled( true );
         actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
 
-        // Setup logout button
+        // Setup logout button and home button
         findViewById( R.id.navLogout ).setOnClickListener( this );
+        findViewById( R.id.homeBtn ).setOnClickListener( this );
 
         // Get Firebase authenticator
         auth = FirebaseAuth.getInstance();
@@ -101,6 +102,12 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
         { // If logout clicked on nav drawer, run the signout function
             View thisView = findViewById(android.R.id.content);
             navDrawerHandler.signOut( thisView.getContext() );
+        }
+
+        if( v.getId() == R.id.homeBtn )
+        {
+            Intent homeScreenActivity = new Intent( getApplicationContext(), DefaultHome.class );
+            startActivity( homeScreenActivity );
         }
     }
 }

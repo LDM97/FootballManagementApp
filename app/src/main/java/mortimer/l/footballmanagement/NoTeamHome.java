@@ -1,21 +1,21 @@
 package mortimer.l.footballmanagement;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
-import android.support.v4.widget.DrawerLayout;
-import android.support.design.widget.NavigationView;
-import android.view.MenuItem;
-import android.support.v4.view.GravityCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class DefaultHome extends AppCompatActivity implements View.OnClickListener
+public class NoTeamHome extends AppCompatActivity implements View.OnClickListener
 {
 
     private FirebaseAuth auth;
@@ -23,11 +23,10 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
     private DrawerLayout navDraw;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void onCreate( Bundle savedInstanceState )
     {
-
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_default_home );
+        setContentView( R.layout.activity_no_team_home );
 
         // Custom toolbar setup
         Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
@@ -36,48 +35,35 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled( false );
 
-        TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
+        TextView actionBarTitle = (TextView) findViewById(R.id.toolbarTitle);
         actionBarTitle.setText( "Home" );
 
         actionBar.setDisplayHomeAsUpEnabled( true );
         actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
 
+        // Setup logout button and home button
+        findViewById(R.id.navLogout).setOnClickListener( this );
+        findViewById(R.id.homeBtn).setOnClickListener( this );
+
         // Get Firebase authenticator
         auth = FirebaseAuth.getInstance();
 
-        // Setup logout button
-        findViewById( R.id.navLogout ).setOnClickListener( this );
+        // Hide menu items, user not part of team can't access team info screens
+
+
+        // Buttons
+        findViewById( R.id.createTeam ).setOnClickListener( this );
 
         // Nav drawer code
         navDraw = findViewById( R.id.drawer_layout );
         NavigationView navigationView = findViewById( R.id.nav_view );
 
-        navigationView.setNavigationItemSelectedListener
-                (
-                new NavigationView.OnNavigationItemSelectedListener()
-                {
-                    @Override
-                    public boolean onNavigationItemSelected( MenuItem menuItem ) {
+        // Hide items, no team not allowed to navigate to team info screens
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem( R.id.teamCalendar ).setVisible( false );
+        nav_Menu.findItem( R.id.discussionBoard ).setVisible( false );
+        nav_Menu.findItem( R.id.teamInfo ).setVisible( false );
 
-                        // close drawer when item is tapped
-                        navDraw.closeDrawers();
-
-                        // Pass selected item and context to handle view
-                        View thisView = findViewById(android.R.id.content);
-                        navDrawerHandler.itemSelectHandler( menuItem, thisView.getContext() );
-
-                        return true;
-                    }
-                });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected( MenuItem item ) {
-        if ( item.getItemId() == android.R.id.home ) {
-                navDraw.openDrawer( GravityCompat.START );
-                return true;
-        }
-        return super.onOptionsItemSelected( item );
     }
 
     @Override
@@ -95,6 +81,15 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected( MenuItem item ) {
+        if ( item.getItemId() == android.R.id.home ) {
+            navDraw.openDrawer( GravityCompat.START );
+            return true;
+        }
+        return super.onOptionsItemSelected( item );
+    }
+
 
     @Override
     public void onClick( View v )
@@ -103,6 +98,12 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
         { // If logout clicked on nav drawer, run the signout function
             View thisView = findViewById(android.R.id.content);
             navDrawerHandler.signOut( thisView.getContext() );
+        }
+
+        if( v.getId() == R.id.createTeam )
+        {
+            Intent createTeamActivity = new Intent( getApplicationContext(), CreateTeam.class );
+            startActivity( createTeamActivity );
         }
 
     }

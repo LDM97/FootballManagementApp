@@ -19,6 +19,13 @@
     import com.google.firebase.auth.AuthResult;
     import com.google.firebase.auth.FirebaseAuth;
     import com.google.firebase.auth.FirebaseUser;
+    import com.google.firebase.database.DataSnapshot;
+    import com.google.firebase.database.DatabaseError;
+    import com.google.firebase.database.DatabaseReference;
+    import com.google.firebase.database.FirebaseDatabase;
+    import com.google.firebase.database.ValueEventListener;
+
+    import java.util.List;
 
     public class Login extends AppCompatActivity implements View.OnClickListener
     {
@@ -61,6 +68,9 @@
 
             // Get Firebase authenticator
             auth = FirebaseAuth.getInstance();
+
+            // Hide the home button
+            findViewById( R.id.homeBtn ).setVisibility( View.GONE );
         }
 
         @Override
@@ -77,20 +87,40 @@
             if ( user != null )
             { // User is already logged in
 
-                // Send user to logged in home screen
-                Intent defaultHomeScreen = new Intent( getApplicationContext(), DefaultHome.class );
-                startActivity( defaultHomeScreen );
-                /* ----
-                // Hide login options
-                findViewById( R.id.emailInput ).setVisibility( View.GONE );
-                findViewById( R.id.passwordInput ).setVisibility( View.GONE );
-                findViewById( R.id.createAccountBtn ).setVisibility( View.GONE );
-                findViewById( R.id.signInBtn ).setVisibility( View.GONE );
+                FirebaseUser currentUser = auth.getCurrentUser();
+                String uid = currentUser.getUid();
 
-                // Show status and logout options
-                findViewById( R.id.userStatus ).setVisibility( View.VISIBLE );
-                findViewById( R.id.logoutBtn ).setVisibility( View.VISIBLE );
-                ---- */
+                // See if current user already assigned to a team
+                FirebaseDatabase database =  FirebaseDatabase.getInstance();
+                DatabaseReference currentUserDefaultDataRef = database.getReference().child( "Users" ).child( uid );
+
+
+                currentUserDefaultDataRef.addListenerForSingleValueEvent( new ValueEventListener()
+                {
+                    @Override
+                    public void onDataChange( DataSnapshot snapshot )
+                    {
+
+                        if ( snapshot.exists() )
+                        { // Exists, user has no team
+                            Intent noTeamHomeActivity = new Intent( getApplicationContext(), NoTeamHome.class );
+                            startActivity( noTeamHomeActivity );
+                        }
+                        else
+                        { // snapshot doesn't exist, login registered to a team
+                            Intent defaultHomeActivity = new Intent( getApplicationContext(), DefaultHome.class );
+                            startActivity( defaultHomeActivity );
+                        }
+                    }
+
+
+                    @Override
+                    public void onCancelled( DatabaseError databaseError ) {
+                        System.out.println( "The read failed: " + databaseError.getCode() );
+                    }
+
+                } );
+
 
             }
             else
