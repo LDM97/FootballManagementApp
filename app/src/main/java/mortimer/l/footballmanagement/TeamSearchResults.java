@@ -1,13 +1,10 @@
 package mortimer.l.footballmanagement;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.support.constraint.ConstraintLayout;
+import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,29 +12,26 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.SearchView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class NoTeamHome extends AppCompatActivity implements View.OnClickListener
+public class TeamSearchResults extends AppCompatActivity implements View.OnClickListener
 {
+
+    String query;
 
     private FirebaseAuth auth;
     private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
     private DrawerLayout navDraw;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState )
+    protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_no_team_home );
+        setContentView( R.layout.activity_team_search_results );
 
         // Custom toolbar setup
         Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
@@ -47,23 +41,18 @@ public class NoTeamHome extends AppCompatActivity implements View.OnClickListene
         actionBar.setDisplayShowTitleEnabled( false );
 
         TextView actionBarTitle = (TextView) findViewById(R.id.toolbarTitle);
-        actionBarTitle.setText( "Home" );
+        actionBarTitle.setText( "Search Results" );
 
         actionBar.setDisplayHomeAsUpEnabled( true );
         actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
 
         // Setup logout button and home button
-        findViewById(R.id.navLogout).setOnClickListener( this );
-        findViewById(R.id.homeBtn).setOnClickListener( this );
+        findViewById( R.id.navLogout ).setOnClickListener( this );
+        findViewById( R.id.homeBtn ).setOnClickListener( this );
 
         // Get Firebase authenticator
         auth = FirebaseAuth.getInstance();
 
-        // Hide menu items, user not part of team can't access team info screens
-
-
-        // Buttons
-        findViewById( R.id.createTeam ).setOnClickListener( this );
 
         // Nav drawer code
         navDraw = findViewById( R.id.drawer_layout );
@@ -75,43 +64,29 @@ public class NoTeamHome extends AppCompatActivity implements View.OnClickListene
         nav_Menu.findItem( R.id.discussionBoard ).setVisible( false );
         nav_Menu.findItem( R.id.teamInfo ).setVisible( false );
 
-
-
-        // Search view listener
-        SearchView searchView = (SearchView) findViewById( R.id.teamSearch ); // inititate a search view
-
-        // perform set on query text listener event
-        searchView.setOnQueryTextListener( new SearchView.OnQueryTextListener()
+        // Display thing query search results
+        if( getIntent().hasExtra( "mortimer.l.footballmanagement.query" ) )
         {
-            @Override
-            public boolean onQueryTextSubmit(String query)
-            {
+            query = getIntent().getExtras().getString( "mortimer.l.footballmanagement.query" );
 
-                SearchView searchView = (SearchView) findViewById( R.id.teamSearch );
+            LinearLayout linearLayout = (LinearLayout)findViewById( R.id.content_frame );
 
-                // Remove virtual keyboard after search input
-                InputMethodManager inputManager = (InputMethodManager)getSystemService( Context.INPUT_METHOD_SERVICE );
-                inputManager.hideSoftInputFromWindow( searchView.getWindowToken(), 0);
-
-
-                // Pass the query to the results display
-                Intent searchResults = new Intent( getApplicationContext(), TeamSearchResults.class );
-                searchResults.putExtra( "mortimer.l.footballmanagement.query", query );
-                startActivity( searchResults );
-
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText)
-            {
-                // do something when text changes
-                return false;
-            }
-        });
+            TextView result = new TextView( this );
+            result.setText( query );
+            result.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT) );
+            result.setGravity( Gravity.CENTER );
+            result.setTextSize( 24 );
+            float scale = getResources().getDisplayMetrics().density;
+            int paddingTop = (int) ( 80*scale + 0.5f );
+            int padding = (int) ( 8*scale + 0.5f );
+            result.setTextColor( Color.BLACK );
+            result.setPadding( padding, paddingTop, padding, padding );
+            linearLayout.addView( result );
+        }
 
     }
-
 
     @Override
     public void onStart()
@@ -147,12 +122,11 @@ public class NoTeamHome extends AppCompatActivity implements View.OnClickListene
             navDrawerHandler.signOut( thisView.getContext() );
         }
 
-        if( v.getId() == R.id.createTeam )
+        if( v.getId() == R.id.homeBtn )
         {
-            Intent createTeamActivity = new Intent( getApplicationContext(), CreateTeam.class );
-            startActivity( createTeamActivity );
+            Intent homeScreenActivity = new Intent( getApplicationContext(), NoTeamHome.class );
+            startActivity( homeScreenActivity );
         }
 
     }
-
 }

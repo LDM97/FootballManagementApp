@@ -33,7 +33,8 @@
         <activity android:name=".DiscussionBoard" />
         <activity android:name=".TeamInfo" />
         <activity android:name=".CreateTeam" />
-        <activity android:name=".NoTeamHome"></activity>
+        <activity android:name=".NoTeamHome" />
+        <activity android:name=".TeamSearchResults"></activity>
     </application>
 
 </manifest>
