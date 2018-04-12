@@ -17,6 +17,14 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class TeamSearchResults extends AppCompatActivity implements View.OnClickListener
 {
@@ -45,14 +53,12 @@ public class TeamSearchResults extends AppCompatActivity implements View.OnClick
 
         actionBar.setDisplayHomeAsUpEnabled( true );
         actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
-
         // Setup logout button and home button
         findViewById( R.id.navLogout ).setOnClickListener( this );
         findViewById( R.id.homeBtn ).setOnClickListener( this );
 
         // Get Firebase authenticator
         auth = FirebaseAuth.getInstance();
-
 
         // Nav drawer code
         navDraw = findViewById( R.id.drawer_layout );
@@ -64,28 +70,104 @@ public class TeamSearchResults extends AppCompatActivity implements View.OnClick
         nav_Menu.findItem( R.id.discussionBoard ).setVisible( false );
         nav_Menu.findItem( R.id.teamInfo ).setVisible( false );
 
+
+        final String QUERY;
         // Display thing query search results
-        if( getIntent().hasExtra( "mortimer.l.footballmanagement.query" ) )
+        //if( getIntent().hasExtra( "mortimer.l.footballmanagement.query" ) )
+        //{
+        QUERY = getIntent().getExtras().getString( "mortimer.l.footballmanagement.query" );
+
+        //}
+
+        // Get teams
+        FirebaseDatabase database =  FirebaseDatabase.getInstance();
+        DatabaseReference teamsRef = database.getReference().child( "Teams" );
+
+        teamsRef.addListenerForSingleValueEvent( new ValueEventListener()
         {
-            query = getIntent().getExtras().getString( "mortimer.l.footballmanagement.query" );
+            @Override
+            public void onDataChange( DataSnapshot snapshot )
+            {
+                Iterable <DataSnapshot> teams = snapshot.getChildren();
 
-            LinearLayout linearLayout = (LinearLayout)findViewById( R.id.content_frame );
+                // Populate the list of teams
+                List<Team> teamsList = new LinkedList<>();
 
-            TextView result = new TextView( this );
-            result.setText( query );
-            result.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT) );
-            result.setGravity( Gravity.CENTER );
-            result.setTextSize( 24 );
-            float scale = getResources().getDisplayMetrics().density;
-            int paddingTop = (int) ( 80*scale + 0.5f );
-            int padding = (int) ( 8*scale + 0.5f );
-            result.setTextColor( Color.BLACK );
-            result.setPadding( padding, paddingTop, padding, padding );
-            linearLayout.addView( result );
-        }
+                for( DataSnapshot team : teams )
+                {
+                    teamsList.add( team.getValue( Team.class ) );
+                }
 
+                // Set top padding to 80dp so doesn't clash w action bar
+                float scale = getResources().getDisplayMetrics().density;
+                int padding = (int) ( 8*scale + 0.5f );
+                int topPadding = (int) ( 80*scale + 0.5f );
+
+                // Make list of teams that actually match the query
+                List<Team> matchingTeams = new LinkedList<>();
+                for( Team team : teamsList )
+                {
+                    if( team.getTeamName().toLowerCase().contains( QUERY.toLowerCase() ) )
+                    {
+                        matchingTeams.add( team );
+                    }
+                }
+
+
+                if( matchingTeams.isEmpty() )
+                { // No teams match the query
+                    TextView noResults = getTextView();
+                    noResults.setPadding(padding, topPadding, padding, padding);
+                    noResults.setText( "No matches found for: " + QUERY );
+                }
+                else { // Print out the results
+
+                    // Loop through teams and output their name to the screen
+                    for (int i = 0; i < matchingTeams.size(); i++) {
+
+                        if (i == 0) {
+                            // Set padding to not clash w action bar for first item
+                            TextView resultFrame = getTextView();
+                            resultFrame.setPadding(padding, topPadding, padding, padding);
+                            resultFrame.setText( matchingTeams.get(i).getTeamName());
+                        } else {
+                            // Set text to team name
+                            TextView resultFrame = getTextView();
+                            resultFrame.setText( matchingTeams.get(i).getTeamName());
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled( DatabaseError databaseError) {
+                System.out.println( "The read failed: " + databaseError.getCode() );
+            }
+        } );
+
+    }
+
+    private TextView getTextView()
+    { // Get a text view to dynamically display the results in
+        TextView tv = new TextView( this );
+
+        // Set layout and formatting of text view
+        tv.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT) );
+        tv.setGravity( Gravity.CENTER );
+        tv.setTextSize( 24 );
+        float scale = getResources().getDisplayMetrics().density;
+        int padding = (int) ( 10*scale + 0.5f );
+        tv.setTextColor( Color.BLACK );
+        tv.setPadding( padding, padding, padding, padding );
+
+        // Add the text view to the linear layout container on the page
+        LinearLayout linearLayout = (LinearLayout)findViewById( R.id.content_frame );
+        linearLayout.addView( tv );
+
+        return tv;
     }
 
     @Override
