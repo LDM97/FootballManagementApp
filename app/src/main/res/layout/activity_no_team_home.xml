@@ -12,18 +12,91 @@
     <include layout="@layout/action_bar" />
 
     <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- container w text to notify user of team status -->
+        <LinearLayout
+            android:id="@+id/noTeamContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="70dp"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/teamStatusTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:text="You are not Currently Part of a Team"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <!-- Search for team container -->
+        <LinearLayout
+            android:id="@+id/searchForTeamContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1">
+
+
+            <TextView
+                android:id="@+id/searchTeamTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:text="Search &amp; Request to Join a Team"
+                android:textSize="24sp" />
+
+            <SearchView
+                android:id="@+id/teamSearch"
+                android:layout_width="250dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rounded_corner" />
+
+        </LinearLayout>
 
         <!-- create team container -->
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:id="@+id/createTeamContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/createTeamTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:text="Create Your Own Team"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/createTeam"
@@ -36,98 +109,14 @@
                 android:layout_marginStart="8dp"
                 android:background="@drawable/rounded_corner"
                 android:padding="10dp"
-                android:text="Create a Team"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/createTeamTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:text="Create Your Own Team"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/createTeam"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <!-- Search for team container -->
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/searchForTeamContainer"
-            android:layout_width="match_parent"
-            android:layout_height="193dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/createTeamContainer">
+                android:text="Create a Team" />
 
 
-            <TextView
-                android:id="@+id/searchTeamTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="40dp"
-                android:text="Search &amp; Request to Join a Team"
-                android:gravity="center"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
 
-            <SearchView
-                android:id="@+id/teamSearch"
-                android:layout_width="250dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/rounded_corner"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/searchTeamTxt" />
 
-        </android.support.constraint.ConstraintLayout>
 
-        <!-- container w text to notify user of team status -->
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/noTeamContainer"
-            android:layout_width="match_parent"
-            android:layout_height="193dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="70dp"
-            app:layout_constraintBottom_toTopOf="@+id/searchForTeamContainer"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/teamStatusTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:gravity="center"
-                android:text="You are not Currently Part of a Team"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
-
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
     <android.support.design.widget.NavigationView

@@ -103,7 +103,7 @@ public class CreateTeam extends AppCompatActivity implements View.OnClickListene
                 String typeFootball = typeFootballInput.getText().toString();
                 String teamBio = teamBioInput.getText().toString();
 
-                List<User> players = new LinkedList<User>();
+                List<User> players = new LinkedList<>();
                 currentUserObj.setTeamOrganiser( true ); // Make team creator default organiser
                 players.add( currentUserObj );
 
@@ -120,6 +120,11 @@ public class CreateTeam extends AppCompatActivity implements View.OnClickListene
                 // Delete the user from the list of users w no team as user now stored in team
                 DatabaseReference userRef = database.getReference().child( "Users" ).child( currentUserObj.getUserID() );
                 userRef.removeValue();
+
+                // Put pointer to team in User directory
+                UserTeamPointer pointer = new UserTeamPointer( currentUserObj.getUserID(), newTeam.getTeamId() );
+                DatabaseReference pointerRef = database.getReference().child( "UserTeamPointers" ).child( currentUserObj.getUserID() );
+                pointerRef.setValue( pointer );
 
 
                 // Notify user the team has been created

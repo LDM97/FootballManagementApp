@@ -3,11 +3,12 @@
     public class User
     {
         private String userID;
-        private String name;
+        private String name = "";
         private String email;
         private String preferredPositions;
         private String bio;
         private boolean teamOrganiser;
+        private String team;
 
         public User ()
         {
@@ -21,6 +22,7 @@
             this.email = emailInput;
             this.preferredPositions = prefPositionsInput;
             this.bio = bioInput;
+            this.team = "";
 
         }
 
@@ -83,6 +85,11 @@
         public boolean getTeamOrganiser() { return this.teamOrganiser; }
 
         public void setTeamOrganiser( boolean teamOrganiser ) { this.teamOrganiser = teamOrganiser; }
+
+        // team id get and setters
+        public String getTeam() { return this.team; }
+
+        public void setTeam( String teamId ){ this.team = teamId; }
 
 
     }

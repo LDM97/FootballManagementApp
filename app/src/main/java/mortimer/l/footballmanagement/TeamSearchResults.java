@@ -95,35 +95,23 @@ public class TeamSearchResults extends AppCompatActivity implements View.OnClick
                     }
                 }
 
-                // Set top padding to 80dp so doesn't clash w action bar
-                float scale = getResources().getDisplayMetrics().density;
-                int padding = (int) (8 * scale + 0.5f);
-                int topPadding = (int) (80 * scale + 0.5f);
-
 
                 if (matchingTeams.isEmpty()) { // No teams match the query, display this to the user
                     TextView noResults = getTextView();
-                    noResults.setPadding(padding, topPadding, padding, padding);
                     noResults.setText("No matches found for: " + QUERY);
                 } else { // Print out the results
 
                     // Loop through teams and output their name to the screen
-                    for (int i = 0; i < matchingTeams.size(); i++) {
+                    for ( Team team : matchingTeams ) {
 
                         // Get text view to display the output
                         TextView resultFrame = getTextView();
 
-                        if (i == 0) {
-                            // Set padding to not clash w action bar for first item
-                            resultFrame.setPadding(padding, topPadding, padding, padding);
-                            resultFrame.setText(matchingTeams.get(i).getTeamName());
-                        } else {
-                            // Set text to team name
-                            resultFrame.setText(matchingTeams.get(i).getTeamName());
+                        // Set text to team name
+                        resultFrame.setText( team.getTeamName());
 
-                        }
                         // Map the view to the team
-                        viewToTeamId.put( resultFrame, matchingTeams.get( i ).getTeamId() );
+                        viewToTeamId.put( resultFrame, team.getTeamId() );
                     }
                 }
 
@@ -230,6 +218,11 @@ public class TeamSearchResults extends AppCompatActivity implements View.OnClick
                     // Remove the user from the default users database as added to players list of a team
                     DatabaseReference userRef = database.getReference().child( "Users" ).child( userId );
                     userRef.removeValue();
+
+                    // Put pointer to team in User directory
+                    UserTeamPointer pointer = new UserTeamPointer( currentUser.getUserID(), selectedTeam.getTeamId() );
+                    DatabaseReference pointerRef = database.getReference().child( "UserTeamPointers" ).child( userId );
+                    pointerRef.setValue( pointer );
 
 
                     // Notify user they have been added to this team
