@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -31,46 +33,50 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/leftContainer">
 
-            <TextView
-                android:id="@+id/notesTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:text="Notes"
-                android:textSize="18sp"
-                android:textColor="#000000"
-                android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:id="@+id/notesTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="Notes"
+                    android:gravity="center_horizontal"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_weight="0"/>
 
-            <TextView
-                android:id="@+id/eventNotes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="10dp"
-                android:text="Standard weekly training. Liam will bring cones so we can do proper drills!"
-                android:textSize="18sp"
-                android:textColor="#737373"/>
+                <TextView
+                    android:id="@+id/eventNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="Standard weekly training. Liam will bring cones so we can do proper drills!"
+                    android:textColor="#737373"
+                    android:textSize="18sp"
+                    app:layout_constraintTop_toBottomOf="@+id/notesTitle"
+                    android:layout_weight="1"/>
 
-            <Button
-                android:id="@+id/viewAttendanceBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/rounded_corner"
-                android:padding="10dp"
-                android:text="View Attendance" />
+                <Button
+                    android:id="@+id/viewAttendanceBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="10dp"
+                    android:text="Attendance"
+                    android:layout_weight="0"/>
+
 
         </LinearLayout>
 

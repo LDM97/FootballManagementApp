@@ -5,6 +5,11 @@
         String userId;
         String teamId;
 
+        UserTeamPointer()
+        {
+            // Empty, no argument constructor for firebase calls
+        }
+
         UserTeamPointer( String userId, String teamId )
         {
             this.userId = userId;

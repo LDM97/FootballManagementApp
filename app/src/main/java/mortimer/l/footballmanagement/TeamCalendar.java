@@ -14,9 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class TeamCalendar extends AppCompatActivity implements View.OnClickListener
 {
@@ -75,29 +85,81 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
                             }
                         });
 
+        // Get a reference to the database
+        FirebaseDatabase database =  FirebaseDatabase.getInstance();
+        DatabaseReference databaseRef = database.getReference();
 
-        // Add calendarItem code
-        linearLayout = (ViewGroup) findViewById( R.id.content_frame );
+        databaseRef.addListenerForSingleValueEvent( new ValueEventListener()
+        {
+            @Override
+            public void onDataChange( DataSnapshot snapshot )
+            {
 
-        View calendarItem = LayoutInflater.from( this ).inflate( R.layout.calendar_item_layout, linearLayout, false);
+                // Get user id, used to locate the team this user plays for
+                FirebaseUser currentUser = auth.getCurrentUser();
+                String userId = currentUser.getUid();
 
-        // TextView textView = (TextView) layout2.findViewById(R.id.button1);
-        // textView1.setText(textViewText);
+                // Get the current team id
+                UserTeamPointer pointer = snapshot.child( "UserTeamPointers" ).child( userId ).getValue( UserTeamPointer.class );
+                String teamId = pointer.getTeamId();
 
-        linearLayout.addView( calendarItem );
+                // Get DB instance and reference to the team's events list in the database
+                FirebaseDatabase database =  FirebaseDatabase.getInstance();
+                DatabaseReference eventsRef = database.getReference().child( "Teams" ).child( teamId ).child( "events" );
 
-        // View horizontalLine = findViewById( R.id.horizontalLine );
-        // linearLayout.addView( horizontalLine );
+                eventsRef.addListenerForSingleValueEvent( new ValueEventListener()
+                {
+                    @Override
+                    public void onDataChange( DataSnapshot snapshot )
+                    {
+                        for( DataSnapshot eventSnapshot : snapshot.getChildren() )
+                        {
+                            CalendarItem event = eventSnapshot.getValue( CalendarItem.class );
 
-        // Add calendar items
-        View calendarItem2 = LayoutInflater.from( this ).inflate( R.layout.calendar_item_layout, linearLayout, false);
-        linearLayout.addView( calendarItem2 );
+                            // Add calendarItem
+                            linearLayout = (ViewGroup) findViewById( R.id.content_frame );
+                            View calendarItem = LayoutInflater.from( getApplicationContext() ).inflate( R.layout.calendar_item_layout, linearLayout, false);
 
-        View calendarItem3 = LayoutInflater.from( this ).inflate( R.layout.calendar_item_layout, linearLayout, false);
-        linearLayout.addView( calendarItem3 );
+                            // Display the title for the event
+                            TextView title = calendarItem.findViewById( R.id.eventTitle );
+                            title.setText( event.getEventTitle() );
 
-        View calendarItem4 = LayoutInflater.from( this ).inflate( R.layout.calendar_item_layout, linearLayout, false);
-        linearLayout.addView( calendarItem4 );
+                            // Display the notes for the event
+                            TextView notes = calendarItem.findViewById( R.id.eventNotes );
+                            notes.setText( event.getNotes() );
+
+                            // Display the time for the event
+                            TextView time = calendarItem.findViewById( R.id.eventTime );
+                            time.setText( event.getTime() );
+
+                            // Display the date for the event
+                            TextView date = calendarItem.findViewById( R.id.eventDate );
+                            date.setText( event.getDate() );
+
+                            // Display the location for the event
+                            TextView location = calendarItem.findViewById( R.id.eventLocation );
+                            location.setText( event.getLocation() );
+
+                            // Add the view to the screen w all the event data
+                            linearLayout.addView( calendarItem );
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled( DatabaseError databaseError)
+                    {
+                        System.out.println( "The read failed: " + databaseError.getCode() );
+                    }
+                } );
+
+            }
+
+            @Override
+            public void onCancelled( DatabaseError databaseError) {
+                System.out.println( "The read failed: " + databaseError.getCode() );
+            }
+        } );
 
 
         // Set listener for FAB add event click

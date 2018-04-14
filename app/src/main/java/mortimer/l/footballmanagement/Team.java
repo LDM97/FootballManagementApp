@@ -1,5 +1,6 @@
 package mortimer.l.footballmanagement;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Team
@@ -10,6 +11,7 @@ public class Team
     private String typeFootball;
     private String teamBio;
     private List<User> players;
+    private List<CalendarItem> events;
 
     public Team ()
     {
@@ -23,7 +25,13 @@ public class Team
         this.typeFootball = typeFootball;
         this.teamBio = teamBio;
         this.players = players;
+        this.events = new LinkedList<CalendarItem>();
     }
+
+    // Get events and add event to the events list
+    public List<CalendarItem> getEvents() { return this.events; }
+
+    public void addEvent( CalendarItem event ) { this.events.add( event ); }
 
     // teamId getter and setters
     public String getTeamId() { return this.teamId; }
