@@ -34,7 +34,11 @@
         <activity android:name=".TeamInfo" />
         <activity android:name=".CreateTeam" />
         <activity android:name=".NoTeamHome" />
-        <activity android:name=".TeamSearchResults"></activity>
+        <activity android:name=".TeamSearchResults" />
+        <activity
+            android:name=".AddEvent"
+            android:label="@string/title_activity_add_event"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

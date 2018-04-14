@@ -142,7 +142,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:text="Date"
+                android:text="Location"
                 android:textSize="18sp"
                 android:textColor="#000000"/>
 
@@ -155,7 +155,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="10dp"
-                android:text="20th February"
+                android:text="Cochrane Park"
                 android:textSize="24sp"
                 android:textColor="#737373"/>
 

@@ -14,11 +14,11 @@
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="navDrawItems" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textSize"> 20sp </item>
-        <item name="android:layout_margin"> 5dp </item>
-        <item name="android:layout_width"> match_parent </item>
-        <item name="android:layout_height"> wrap_content </item>
-        <item name="android:layout_gravity"> center </item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:windowActionBarOverlay">false</item>
     </style>
 

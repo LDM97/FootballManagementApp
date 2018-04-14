@@ -14,7 +14,7 @@ public class NavDrawerHandler {
     { // Identify which menu item clicked, and perform the relevant action
 
         // set item as selected to persist highlight
-        selectedItem.setChecked( true );
+        // selectedItem.setChecked( true );
 
         // Add code here to update the UI based on the item selected
         switch ( selectedItem.getItemId() ) {
