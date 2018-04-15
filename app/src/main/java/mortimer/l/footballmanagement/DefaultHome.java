@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +16,11 @@ import android.support.v4.view.GravityCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class DefaultHome extends AppCompatActivity implements View.OnClickListener
 {
@@ -21,6 +28,8 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
     private FirebaseAuth auth;
     private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
     private DrawerLayout navDraw;
+
+    private ViewGroup linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -69,6 +78,94 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
                         return true;
                     }
                 });
+
+        // Get the team name and set the text view to equal the team name
+        // Get a reference to the database
+        FirebaseDatabase database =  FirebaseDatabase.getInstance();
+        DatabaseReference databaseRef = database.getReference();
+
+        databaseRef.addListenerForSingleValueEvent( new ValueEventListener()
+        {
+            @Override
+            public void onDataChange( DataSnapshot snapshot ) {
+
+                // Get user id, used to locate the team this user plays for
+                FirebaseUser currentUser = auth.getCurrentUser();
+                String userId = currentUser.getUid();
+
+                // Get the current team id
+                UserTeamPointer pointer = snapshot.child( "UserTeamPointers" ).child( userId ).getValue( UserTeamPointer.class );
+                String teamId = pointer.getTeamId();
+
+                // Get the team, the text view, and set the name text to equal the team name
+                Team team = snapshot.child( "Teams" ).child( teamId ).getValue( Team.class );
+                TextView nameOutput = findViewById( R.id.teamName );
+                nameOutput.setText( team.getTeamName() );
+
+
+
+                // ==== Dynamically add data for the next (upto 3) upcoming events ====
+
+                // Get DB instance and reference to the team's events list in the database
+                FirebaseDatabase database =  FirebaseDatabase.getInstance();
+                DatabaseReference eventsRef = database.getReference().child( "Teams" ).child( teamId ).child( "events" );
+
+                eventsRef.addListenerForSingleValueEvent( new ValueEventListener()
+                {
+                    @Override
+                    public void onDataChange( DataSnapshot snapshot )
+                    {
+                        int i = 0;
+
+                        for( DataSnapshot eventSnapshot : snapshot.getChildren() )
+                        {
+                            if( i == 3 )
+                            { // Dynamically display a max of 3 events
+                                break;
+                            }
+
+                            CalendarItem event = eventSnapshot.getValue( CalendarItem.class );
+
+                            // Add calendarItem
+                            linearLayout = (ViewGroup) findViewById( R.id.upcomingEventsContainer );
+                            View upcomingEventItem = LayoutInflater.from( getApplicationContext() ).inflate( R.layout.upcoming_events_layout, linearLayout, false);
+
+                            // Display the title for the event
+                            TextView title = upcomingEventItem.findViewById( R.id.eventName );
+                            title.setText( event.getEventTitle() );
+
+                            // Display the date for the event
+                            TextView date = upcomingEventItem.findViewById( R.id.eventDate );
+                            date.setText( event.getDate() );
+
+                            // Display the location for the event
+                            TextView location = upcomingEventItem.findViewById( R.id.eventLocation );
+                            location.setText( event.getLocation() );
+
+                            // Add the view to the screen w all the event data
+                            linearLayout.addView( upcomingEventItem );
+
+                            // Set increment
+                            i++;
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled( DatabaseError databaseError)
+                    {
+                        System.out.println( "The read failed: " + databaseError.getCode() );
+                    }
+                } );
+
+            }
+
+            @Override
+            public void onCancelled( DatabaseError databaseError)
+            {
+                System.out.println( "The read failed: " + databaseError.getCode() );
+            }
+        } );
     }
 
     @Override

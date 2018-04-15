@@ -95,17 +95,36 @@ public class TeamSearchResults extends AppCompatActivity implements View.OnClick
                     }
                 }
 
+                // Margin params for first item so it doesn't clash w the action bar
+                final float scale = getApplicationContext().getResources().getDisplayMetrics().density;
+                int paddingTop = (int) ( 60 * scale + 0.5f);
+                int padding = (int) ( 8 * scale + 0.5f );
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins( padding, paddingTop, padding, padding );
+
 
                 if (matchingTeams.isEmpty()) { // No teams match the query, display this to the user
                     TextView noResults = getTextView();
+                    noResults.setLayoutParams(params);
+
+                    noResults.setGravity( Gravity.CENTER );
                     noResults.setText("No matches found for: " + QUERY);
                 } else { // Print out the results
 
                     // Loop through teams and output their name to the screen
-                    for ( Team team : matchingTeams ) {
+                    for ( int i = 0; i < matchingTeams.size(); i++ ) {
+
+                        Team team = matchingTeams.get( i );
 
                         // Get text view to display the output
                         TextView resultFrame = getTextView();
+
+                        if( i == 0 )
+                        { // Set top margin on first result so doesn't clash w action bar
+                            resultFrame.setLayoutParams(params);
+                        }
+
+                        resultFrame.setGravity( Gravity.CENTER );
 
                         // Set text to team name
                         resultFrame.setText( team.getTeamName());

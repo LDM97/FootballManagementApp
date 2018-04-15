@@ -41,6 +41,12 @@
                 android:textSize="24sp" />
         </LinearLayout>
 
+        <!-- add seperator line between the containers -->
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
+
         <!-- Search for team container -->
         <LinearLayout
             android:id="@+id/searchForTeamContainer"
@@ -56,6 +62,7 @@
                 android:id="@+id/searchTeamTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
@@ -76,6 +83,12 @@
 
         </LinearLayout>
 
+        <!-- add seperator line between the containers -->
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
+
         <!-- create team container -->
         <LinearLayout
             android:id="@+id/createTeamContainer"
@@ -95,6 +108,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
+                android:gravity="center"
                 android:text="Create Your Own Team"
                 android:textSize="24sp" />
 
