@@ -220,6 +220,12 @@
             // else Do nothing, still need to create account
         }
 
+        @Override
+        public void onBackPressed()
+        { // Take user back to login screen
+            Intent intent = new Intent(this, Login.class);
+            startActivity( intent );
+        }
 
         @Override
         public void onClick( View v )

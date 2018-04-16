@@ -63,15 +63,25 @@
             android:layout_weight="0"
             android:orientation="horizontal">
 
-            <!-- Dynamic list of players container -->
-            <LinearLayout
-                android:id="@+id/playersListContainer"
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:isScrollContainer="true"
+                android:id="@+id/scrollView"
+                android:fillViewport="true"
                 android:layout_weight="1">
 
-            </LinearLayout>
+                <!-- Dynamic list of players container -->
+                <LinearLayout
+                    android:id="@+id/playersListContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
 
             <!-- add seperator line between the containers -->
             <View

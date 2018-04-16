@@ -9,9 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +39,8 @@ public class TeamSearchResults extends AppCompatActivity implements View.OnClick
     private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
     private DrawerLayout navDraw;
     private final Map<View, String> viewToTeamId = new HashMap<>();
+
+    private ViewGroup linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,10 +110,11 @@ public class TeamSearchResults extends AppCompatActivity implements View.OnClick
 
                 if (matchingTeams.isEmpty()) { // No teams match the query, display this to the user
                     TextView noResults = getTextView();
-                    noResults.setLayoutParams(params);
+                    // noResults.setLayoutParams(params);
 
                     noResults.setGravity( Gravity.CENTER );
                     noResults.setText("No matches found for: " + QUERY);
+
                 } else { // Print out the results
 
                     // Loop through teams and output their name to the screen
@@ -116,21 +122,42 @@ public class TeamSearchResults extends AppCompatActivity implements View.OnClick
 
                         Team team = matchingTeams.get( i );
 
-                        // Get text view to display the output
-                        TextView resultFrame = getTextView();
+                        View teamSearchResult = getResultContainer();
 
+                        // Display the team name
+                        TextView teamName = teamSearchResult.findViewById( R.id.teamName );
+                        teamName.setText( team.getTeamName() );
+
+                        // Display the team football type
+                        TextView typeFootball = teamSearchResult.findViewById( R.id.typeFootball );
+                        typeFootball.setText( team.getTypeFootball() );
+
+                        // Display the team bio
+                        TextView teamBio = teamSearchResult.findViewById( R.id.teamBio );
+                        teamBio.setText( team.getTeamBio() );
+
+                        // Set the image for the user's icon
+                        ImageView teamLogo = teamSearchResult.findViewById( R.id.teamLogo );
+                        teamLogo.setBackgroundResource(R.drawable.black_and_white_ball);
+
+                        // Get text view to display the output
+                        //TextView resultFrame = getTextView();
+                        /*
                         if( i == 0 )
                         { // Set top margin on first result so doesn't clash w action bar
                             resultFrame.setLayoutParams(params);
-                        }
-
-                        resultFrame.setGravity( Gravity.CENTER );
+                        } */
+                        // ========================
+                        //resultFrame.setGravity( Gravity.CENTER );
 
                         // Set text to team name
-                        resultFrame.setText( team.getTeamName());
+                        //resultFrame.setText( team.getTeamName());
+
 
                         // Map the view to the team
-                        viewToTeamId.put( resultFrame, team.getTeamId() );
+                        viewToTeamId.put( teamSearchResult, team.getTeamId() );
+
+                        linearLayout.addView( teamSearchResult );
                     }
                 }
 
@@ -143,6 +170,21 @@ public class TeamSearchResults extends AppCompatActivity implements View.OnClick
         });
 
     }
+
+    private View getResultContainer()
+    { // Dynamically generate a container for the team info to be displayed in
+
+        // Add result item
+        linearLayout = (ViewGroup) findViewById( R.id.content_frame );
+        View teamSearchResult = LayoutInflater.from( getApplicationContext() ).inflate( R.layout.team_search_result_item, linearLayout, false);
+
+        // Make clickable for user to select this thing
+        teamSearchResult.setClickable( true );
+        teamSearchResult.setOnClickListener( this );
+
+        return teamSearchResult;
+    }
+
 
     private TextView getTextView()
     { // Get a text view to dynamically display the results in
@@ -196,6 +238,12 @@ public class TeamSearchResults extends AppCompatActivity implements View.OnClick
         return super.onOptionsItemSelected( item );
     }
 
+    @Override
+    public void onBackPressed()
+    { // Return user to the home screen
+        Intent intent = new Intent(this, NoTeamHome.class);
+        startActivity(intent);
+    }
 
     @Override
     public void onClick( View v )

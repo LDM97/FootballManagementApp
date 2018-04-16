@@ -1,12 +1,15 @@
 package mortimer.l.footballmanagement;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import android.support.v4.widget.DrawerLayout;
@@ -117,36 +120,43 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
                     {
                         int i = 0;
 
-                        for( DataSnapshot eventSnapshot : snapshot.getChildren() )
-                        {
-                            if( i == 3 )
-                            { // Dynamically display a max of 3 events
-                                break;
+                        if( !snapshot.hasChildren() )
+                        { // Display that there are no upcoming events for this team
+                            TextView noEventsOutput = getTextView();
+                            noEventsOutput.setText( "There are no upcoming events" );
+                        }
+                        else { // Loop through and display the upcoming events
+
+                            for (DataSnapshot eventSnapshot : snapshot.getChildren()) {
+                                if (i == 3) { // Dynamically display a max of 3 events
+                                    break;
+                                }
+
+                                CalendarItem event = eventSnapshot.getValue(CalendarItem.class);
+
+                                // Add calendarItem
+                                linearLayout = (ViewGroup) findViewById(R.id.upcomingEventsContainer);
+                                View upcomingEventItem = LayoutInflater.from(getApplicationContext()).inflate(R.layout.upcoming_events_layout, linearLayout, false);
+
+                                // Display the title for the event
+                                TextView title = upcomingEventItem.findViewById(R.id.eventName);
+                                title.setText(event.getEventTitle());
+
+                                // Display the date for the event
+                                TextView date = upcomingEventItem.findViewById(R.id.eventDate);
+                                date.setText(event.getDate());
+
+                                // Display the location for the event
+                                TextView location = upcomingEventItem.findViewById(R.id.eventLocation);
+                                location.setText(event.getLocation());
+
+                                // Add the view to the screen w all the event data
+                                linearLayout.addView(upcomingEventItem);
+
+                                // Set increment
+                                i++;
                             }
 
-                            CalendarItem event = eventSnapshot.getValue( CalendarItem.class );
-
-                            // Add calendarItem
-                            linearLayout = (ViewGroup) findViewById( R.id.upcomingEventsContainer );
-                            View upcomingEventItem = LayoutInflater.from( getApplicationContext() ).inflate( R.layout.upcoming_events_layout, linearLayout, false);
-
-                            // Display the title for the event
-                            TextView title = upcomingEventItem.findViewById( R.id.eventName );
-                            title.setText( event.getEventTitle() );
-
-                            // Display the date for the event
-                            TextView date = upcomingEventItem.findViewById( R.id.eventDate );
-                            date.setText( event.getDate() );
-
-                            // Display the location for the event
-                            TextView location = upcomingEventItem.findViewById( R.id.eventLocation );
-                            location.setText( event.getLocation() );
-
-                            // Add the view to the screen w all the event data
-                            linearLayout.addView( upcomingEventItem );
-
-                            // Set increment
-                            i++;
                         }
 
                     }
@@ -166,6 +176,28 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
                 System.out.println( "The read failed: " + databaseError.getCode() );
             }
         } );
+    }
+
+    private TextView getTextView()
+    { // Get a text view to display if there are no upcoming events
+        TextView tv = new TextView( this );
+
+        // Set layout and formatting of text view
+        tv.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT) );
+        tv.setGravity( Gravity.CENTER_HORIZONTAL );
+        tv.setTextSize( 18 );
+        float scale = getResources().getDisplayMetrics().density;
+        int padding = (int) ( 8*scale + 0.5f );
+        tv.setTextColor( Color.BLACK );
+        tv.setPadding( padding, padding, padding, padding );
+
+        // Add the text view to the linear layout container on the page
+        LinearLayout linearLayout = (LinearLayout)findViewById( R.id.upcomingEventsContainer );
+        linearLayout.addView( tv );
+
+        return tv;
     }
 
     @Override
@@ -192,6 +224,11 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    @Override
+    public void onBackPressed()
+    { // Already at home screen, do nothing
+        return;
+    }
 
     @Override
     public void onClick( View v )

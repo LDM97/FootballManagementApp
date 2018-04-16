@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/teamName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_margin="1dp"
+        android:textSize="30sp"
+        android:textColor="#000000"
+        android:ems="10"
+        android:inputType="none"
+        android:text="Team Name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <!-- Container for profile image -->
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/teamLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/black_and_white_ball" />
+
+        </LinearLayout>
+
+        <!-- Container for the player info: Name and position -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/typeFootball"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_margin="1dp"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:ems="10"
+                android:inputType="none"
+                android:text="Type of Football" />
+
+            <TextView
+                android:id="@+id/teamBio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="1dp"
+                android:gravity="left"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:ems="10"
+                android:inputType="none"
+                android:singleLine="false"
+                android:text="Team Bio" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- add seperator line between the player items -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorPrimary"/>
+
+</LinearLayout>

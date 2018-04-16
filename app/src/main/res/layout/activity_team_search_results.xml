@@ -10,18 +10,35 @@
 
     <include layout="@layout/action_bar" />
 
-    <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@id/content_frame"
-        android:layout_marginTop="60dp">
+        android:id="@+id/relLayout">
 
-    </LinearLayout>
+        <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:isScrollContainer="true"
+            android:id="@+id/scrollView"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@id/content_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </RelativeLayout>
+
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
-
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

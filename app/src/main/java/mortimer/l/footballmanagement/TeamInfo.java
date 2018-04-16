@@ -143,6 +143,29 @@ public class TeamInfo extends AppCompatActivity implements View.OnClickListener
                             // Add the view to the screen w all the event data
                             linearLayout.addView(playerListItem);
                         }
+
+                        // Add dummy players for scroll testing purposes ===============================================
+                        for( int i = 0; i < 13; i++ )
+                        {
+                            // Add player item
+                            linearLayout = (ViewGroup) findViewById(R.id.playersListContainer);
+                            View playerListItem = LayoutInflater.from(getApplicationContext()).inflate(R.layout.players_list_item_layout, linearLayout, false);
+
+                            // Display the player's name
+                            TextView playerNameText = playerListItem.findViewById(R.id.playerName);
+                            playerNameText.setText( "Dummy Player" );
+
+                            // Display the player's positions
+                            TextView playerPositionsText = playerListItem.findViewById(R.id.playerPositions);
+                            playerPositionsText.setText( "Dummy positions" );
+
+                            // Set the image for the user's icon
+                            ImageView playerImage = playerListItem.findViewById( R.id.playerProfileImage );
+                            playerImage.setBackgroundResource(R.drawable.profile_icon_default);
+
+                            // Add the view to the screen w all the event data
+                            linearLayout.addView(playerListItem);
+                        }
                     }
 
                     @Override
@@ -187,6 +210,12 @@ public class TeamInfo extends AppCompatActivity implements View.OnClickListener
         }
     }
 
+    @Override
+    public void onBackPressed()
+    { // Return user to the home screen
+        Intent intent = new Intent(this, DefaultHome.class);
+        startActivity(intent);
+    }
 
     @Override
     public void onClick( View v )

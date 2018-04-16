@@ -137,6 +137,11 @@ public class NoTeamHome extends AppCompatActivity implements View.OnClickListene
         return super.onOptionsItemSelected( item );
     }
 
+    @Override
+    public void onBackPressed()
+    { // Already on home screen, do nothing
+        return;
+    }
 
     @Override
     public void onClick( View v )

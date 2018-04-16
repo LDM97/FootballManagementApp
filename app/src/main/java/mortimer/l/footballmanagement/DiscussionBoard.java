@@ -93,6 +93,12 @@ public class DiscussionBoard extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @Override
+    public void onBackPressed()
+    { // Return user to the home screen
+        Intent intent = new Intent(this, DefaultHome.class );
+        startActivity( intent );
+    }
 
     @Override
     public void onClick( View v )

@@ -194,6 +194,13 @@ public class CreateTeam extends AppCompatActivity implements View.OnClickListene
     }
 
     @Override
+    public void onBackPressed()
+    { // Take the user back to the no team home screen
+        Intent intent = new Intent(this, NoTeamHome.class );
+        startActivity( intent );
+    }
+
+    @Override
     public void onClick( View v )
     {
         if ( v.getId() == R.id.createTeamBtn )

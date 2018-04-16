@@ -204,6 +204,12 @@
         }
 
         @Override
+        public void onBackPressed()
+        { // Not logged in, do nothing
+            return;
+        }
+
+        @Override
         public void onClick( View v )
         {
             switch( v.getId() )

@@ -256,6 +256,12 @@ public class AddEvent extends AppCompatActivity implements View.OnClickListener
         }
     }
 
+    @Override
+    public void onBackPressed()
+    { // Take the user back to the calendar screen
+        Intent intent = new Intent(this, TeamCalendar.class );
+        startActivity( intent );
+    }
 
     @Override
     public void onClick( View v )

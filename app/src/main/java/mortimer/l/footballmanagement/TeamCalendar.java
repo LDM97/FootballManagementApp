@@ -97,14 +97,43 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
 
                 // Get user id, used to locate the team this user plays for
                 FirebaseUser currentUser = auth.getCurrentUser();
-                String userId = currentUser.getUid();
+                final String userId = currentUser.getUid();
 
                 // Get the current team id
                 UserTeamPointer pointer = snapshot.child( "UserTeamPointers" ).child( userId ).getValue( UserTeamPointer.class );
                 String teamId = pointer.getTeamId();
 
-                // Get DB instance and reference to the team's events list in the database
+                // Get user reference
                 FirebaseDatabase database =  FirebaseDatabase.getInstance();
+                DatabaseReference playersRef = database.getReference().child( "Teams" ).child( teamId ).child( "players" );
+
+                playersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot)
+                    {
+                        for( DataSnapshot userSnapshot : dataSnapshot.getChildren() )
+                        {
+                            User user = userSnapshot.getValue( User.class );
+
+                            if( user.getUserID().equals( userId ) )
+                            { // Current user found
+                                if( !user.getTeamOrganiser() )
+                                { // User is not the team organiser, hide the add event button
+                                    findViewById( R.id.addEvent ).setVisibility( View.GONE );
+                                }
+                                break; // Operation done if required, break
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError)
+                    {
+
+                    }
+                });
+
+                // Get DB instance and reference to the team's events list in the database
                 DatabaseReference eventsRef = database.getReference().child( "Teams" ).child( teamId ).child( "events" );
 
                 eventsRef.addListenerForSingleValueEvent( new ValueEventListener()
@@ -198,6 +227,12 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onBackPressed()
+    { // Take user back to the home screen
+        Intent intent = new Intent(this, DefaultHome.class);
+        startActivity(intent);
+    }
 
     @Override
     public void onClick( View v )
