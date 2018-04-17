@@ -8,11 +8,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +30,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,6 +47,7 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout navDraw;
 
     private ViewGroup linearLayout;
+    private PopupWindow popupWindow;
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
@@ -141,9 +153,57 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onDataChange( DataSnapshot snapshot )
                     {
-                        for( DataSnapshot eventSnapshot : snapshot.getChildren() )
+
+                        // Used to sort the dates of the eents
+                        class StringDateComparator implements Comparator<String>
                         {
-                            CalendarItem event = eventSnapshot.getValue( CalendarItem.class );
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                            public int compare(String lhs, String rhs)
+                            {
+                                try
+                                {
+                                    return dateFormat.parse(lhs).compareTo(dateFormat.parse(rhs));
+                                } catch (ParseException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                // Default return on failure
+                                return 0;
+                            }
+
+                        }
+
+                        LinkedList<CalendarItem> events = new LinkedList<>();
+                        LinkedList<String> dates = new LinkedList<>();
+                        HashMap<String,CalendarItem> dateToObj = new HashMap<>();
+
+                        // Check if date in the past, if it is delete this date
+                        String currentDate = new SimpleDateFormat( "dd.MM.yyyy").format( new Date() );
+                        SimpleDateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy" );
+
+                        for( DataSnapshot eventSnapshot : snapshot.getChildren() )
+                        { // Get the calendaar items from the snapshot
+                            CalendarItem event = eventSnapshot.getValue(CalendarItem.class);
+
+                            if( currentDate.compareTo( event.getDate() ) > 0 )
+                            { // Current date is after the event date, event past delete it
+                                DatabaseReference eventRef = eventSnapshot.getRef();
+                                eventRef.removeValue();
+                            }
+                            else { // Setup the event for date ordering
+                                events.add(event);
+                                dateToObj.put(event.getDate(), event);
+                                dates.add(event.getDate());
+                            }
+                        }
+
+                        // Sort the events based on date
+                        Collections.sort( dates, new StringDateComparator() );
+
+                        for( String date : dates )
+                        { // Append items based on date order
+
+                            CalendarItem event = dateToObj.get( date );
 
                             // Add calendarItem
                             linearLayout = (ViewGroup) findViewById( R.id.content_frame );
@@ -162,12 +222,17 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
                             time.setText( event.getTime() );
 
                             // Display the date for the event
-                            TextView date = calendarItem.findViewById( R.id.eventDate );
-                            date.setText( event.getDate() );
+                            TextView eventDate = calendarItem.findViewById( R.id.eventDate );
+                            eventDate.setText( event.getDate() );
 
                             // Display the location for the event
                             TextView location = calendarItem.findViewById( R.id.eventLocation );
                             location.setText( event.getLocation() );
+
+
+                            // Set listener on the attendance button
+                            Button attendanceBtn = calendarItem.findViewById( R.id.viewAttendanceBtn );
+                            setListener( attendanceBtn );
 
                             // Add the view to the screen w all the event data
                             linearLayout.addView( calendarItem );
@@ -201,6 +266,12 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
                 startActivity( addEventActivity );
             }
         });
+    }
+
+    private void setListener( Button btn )
+    {
+
+        btn.setOnClickListener( this );
     }
 
     @Override
@@ -247,6 +318,42 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
         {
             Intent homeScreenActivity = new Intent( getApplicationContext(), DefaultHome.class );
             startActivity( homeScreenActivity );
+        }
+
+        if( v.getId() == R.id.closePopup )
+        { // close the popup
+            popupWindow.dismiss();
+            // Dim the background around the popup window
+                //RelativeLayout calendarMainLayout = (RelativeLayout) findViewById( R.id.calendarRelLayout );
+                //calendarMainLayout.getForeground().setAlpha( 0 );
+        }
+
+        if( v.getId() == R.id.viewAttendanceBtn )
+        {
+            // Get layout container and inflate it
+            LayoutInflater popupLayout = (LayoutInflater) getApplicationContext().getSystemService( LAYOUT_INFLATER_SERVICE );
+            ViewGroup container = (ViewGroup) popupLayout.inflate( R.layout.attendance_popup, null );
+
+            // Set listener for close button
+            container.findViewById( R.id.closePopup ).setOnClickListener( this );
+
+            // Get parent layout
+            RelativeLayout parentLayout = findViewById( R.id.calendarRelLayout );
+
+            // Get the height and width of the screen, to display the popup accordingly
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int height = displayMetrics.heightPixels - 10;
+            int width = displayMetrics.widthPixels - 10;
+
+            // Dim the background around the popup window
+                //RelativeLayout calendarMainLayout = (RelativeLayout) findViewById( R.id.calendarRelLayout );
+                //calendarMainLayout.getForeground().setAlpha( 220 );
+
+            // Display popup window
+            popupWindow = new PopupWindow( container, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true );
+            popupWindow.showAtLocation( parentLayout, Gravity.CENTER, 0, 0 );
+
         }
     }
 }

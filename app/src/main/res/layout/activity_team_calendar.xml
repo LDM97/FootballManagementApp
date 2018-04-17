@@ -14,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/relLayout">
+        android:id="@+id/calendarRelLayout">
 
         <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
         <LinearLayout

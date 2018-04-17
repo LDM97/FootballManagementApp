@@ -205,8 +205,9 @@
 
         @Override
         public void onBackPressed()
-        { // Not logged in, do nothing
-            return;
+        { // Exit the app
+            finish();
+            System.exit(0);
         }
 
         @Override

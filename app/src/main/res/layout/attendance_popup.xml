@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:background="@drawable/rounded_corner"
+    android:backgroundTint="@color/colorPrimary">
+
+    <ImageButton
+        android:id="@+id/closePopup"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:src="@drawable/close_icon"
+        android:backgroundTint="@color/colorAccent"
+        android:background="@drawable/rounded_corner"
+        android:layout_gravity="right"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_corner"
+        android:layout_margin="10dp">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true"
+        android:fillViewport="true"
+        android:id="@+id/scrollView">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+            <!-- List the players who are going. Dynamically generated from the database -->
+            <TextView
+                android:id="@+id/going"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textColor="#000000"
+                android:ems="10"
+                android:inputType="none"
+                android:text="Going" />
+
+            <!-- Dynamic list of players container -->
+            <LinearLayout
+                android:id="@+id/playersGoingContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="center">
+
+                <include layout="@layout/players_list_item_layout"/>
+
+            </LinearLayout>
+
+        <!-- add seperator line between the player items -->
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
+
+            <!-- List the players who are not going. Dynamically generated from the database -->
+            <TextView
+                android:id="@+id/notGoing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textColor="#000000"
+                android:ems="10"
+                android:inputType="none"
+                android:text="Not Going" />
+
+            <!-- Dynamic list of players container -->
+            <LinearLayout
+                android:id="@+id/playersNotGoingContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="center">
+
+                <include layout="@layout/players_list_item_layout"/>
+
+            </LinearLayout>
+
+        <!-- add seperator line between the player items -->
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
+
+            <!-- List the players who have not responded. Dynamically generated from the database -->
+            <TextView
+                android:id="@+id/noResponse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textColor="#000000"
+                android:ems="10"
+                android:inputType="none"
+                android:text="No Response" />
+
+
+            <!-- Dynamic list of players container -->
+            <LinearLayout
+                android:id="@+id/playersNotRespondedContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="center">
+
+                <include layout="@layout/players_list_item_layout"/>
+
+            </LinearLayout>
+
+    </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    </LinearLayout>
+
+
+    <!-- Set attendance buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/goingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Going"
+            android:layout_gravity="left"
+            android:background="@drawable/rounded_corner"
+            android:padding="10dp"
+            android:layout_weight="0"/>
+
+        <!-- Separator to space out the buttons -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/notGoingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not Going"
+            android:layout_gravity="right"
+            android:background="@drawable/rounded_corner"
+            android:padding="10dp"
+            android:layout_weight="0"/>
+
+    </LinearLayout>
+
+</LinearLayout>
