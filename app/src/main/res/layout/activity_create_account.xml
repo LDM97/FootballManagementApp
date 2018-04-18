@@ -111,9 +111,10 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="Bio"
-                android:inputType="text"
+                android:inputType="textMultiLine"
                 android:padding="10dp"
-                android:singleLine="false"/>
+                android:singleLine="false"
+                android:maxLines="4"/>
 
         </LinearLayout>
 

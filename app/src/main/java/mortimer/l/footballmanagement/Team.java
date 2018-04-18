@@ -12,6 +12,7 @@ public class Team
     private String teamBio;
     private List<User> players;
     private List<CalendarItem> events;
+    private List<DiscussionItem> posts;
 
     public Team ()
     {
@@ -26,6 +27,17 @@ public class Team
         this.teamBio = teamBio;
         this.players = players;
         this.events = new LinkedList<CalendarItem>();
+    }
+
+    public List<DiscussionItem> getPosts() {
+        List<DiscussionItem> posts = ( this.posts == null ) ? new LinkedList<DiscussionItem>() : this.posts;
+        return this.posts;
+    }
+
+    public void addPost( DiscussionItem newPost ) {
+        List<DiscussionItem> posts = ( this.posts == null ) ? new LinkedList<DiscussionItem>() : this.posts;
+        posts.add( newPost );
+        this.posts = posts;
     }
 
     // Get events and add event to the events list

@@ -126,7 +126,7 @@ public class TeamInfo extends AppCompatActivity implements View.OnClickListener
 
                             // Add player item
                             linearLayout = (ViewGroup) findViewById(R.id.playersListContainer);
-                            View playerListItem = LayoutInflater.from(getApplicationContext()).inflate(R.layout.players_list_item_layout, linearLayout, false);
+                            View playerListItem = LayoutInflater.from(getApplicationContext()).inflate(R.layout.players_list_item_layout_team_info, linearLayout, false);
 
                             // Display the player's name
                             TextView playerNameText = playerListItem.findViewById(R.id.playerName);

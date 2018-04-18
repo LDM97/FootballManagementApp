@@ -29,17 +29,34 @@
             android:label="DefaultHome"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".TeamCalendar" android:screenOrientation="portrait" />
-        <activity android:name=".DiscussionBoard" android:screenOrientation="portrait" />
-        <activity android:name=".TeamInfo" android:screenOrientation="portrait" />
-        <activity android:name=".CreateTeam" android:screenOrientation="portrait" />
-        <activity android:name=".NoTeamHome" android:screenOrientation="portrait" />
-        <activity android:name=".TeamSearchResults" android:screenOrientation="portrait" />
+        <activity
+            android:name=".TeamCalendar"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DiscussionBoard"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TeamInfo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CreateTeam"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NoTeamHome"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TeamSearchResults"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AddEvent"
             android:label="@string/title_activity_add_event"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".CreateDiscussion"
+            android:label="@string/title_activity_create_discussion"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -1,20 +1,20 @@
 package mortimer.l.footballmanagement;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,26 +24,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-import static android.view.View.GONE;
-
-public class DiscussionBoard extends AppCompatActivity implements View.OnClickListener
+public class CreateDiscussion extends AppCompatActivity implements View.OnClickListener
 {
+
+    private EditText postTitleInput;
+    private EditText postTextInput;
 
     private FirebaseAuth auth;
     private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
     private DrawerLayout navDraw;
 
-    private ViewGroup linearLayout;
-    private Map<View,DiscussionItem> postItemToObj = new HashMap<>();
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_discussion_board);
+        setContentView(R.layout.activity_create_discussion);
 
         // Custom toolbar setup
         Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
@@ -53,7 +49,7 @@ public class DiscussionBoard extends AppCompatActivity implements View.OnClickLi
         actionBar.setDisplayShowTitleEnabled( false );
 
         TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
-        actionBarTitle.setText( "Discussion Board" );
+        actionBarTitle.setText( "Create Post" );
 
         actionBar.setDisplayHomeAsUpEnabled( true );
         actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
@@ -64,7 +60,11 @@ public class DiscussionBoard extends AppCompatActivity implements View.OnClickLi
         // Setup logout button and home button
         findViewById( R.id.navLogout ).setOnClickListener( this );
         findViewById( R.id.homeBtn ).setOnClickListener( this );
-        findViewById( R.id.addPost ).setOnClickListener( this );
+        findViewById( R.id.createPostBtn ).setOnClickListener( this );
+
+        // Views
+        postTitleInput = findViewById( R.id.discussionTitleInput );
+        postTextInput = findViewById( R.id.discussionTextInput );
 
         // Nav drawer code
         navDraw = findViewById( R.id.drawer_layout );
@@ -87,8 +87,10 @@ public class DiscussionBoard extends AppCompatActivity implements View.OnClickLi
                                 return true;
                             }
                         });
+    }
 
-        // Populate the discussion board with any posts
+    private void createPost()
+    {
         // Get a reference to the database
         FirebaseDatabase database =  FirebaseDatabase.getInstance();
         DatabaseReference databaseRef = database.getReference();
@@ -96,77 +98,77 @@ public class DiscussionBoard extends AppCompatActivity implements View.OnClickLi
         databaseRef.addListenerForSingleValueEvent( new ValueEventListener()
         {
             @Override
-            public void onDataChange( DataSnapshot snapshot )
-            {
+            public void onDataChange( DataSnapshot snapshot ) {
+
+                // Get the inputs
+                String postTitle = postTitleInput.getText().toString();
+                String postText = postTextInput.getText().toString();
 
                 // Get user id, used to locate the team this user plays for
                 FirebaseUser currentUser = auth.getCurrentUser();
-                final String userId = currentUser.getUid();
+                String userId = currentUser.getUid();
 
                 // Get the current team id
                 UserTeamPointer pointer = snapshot.child("UserTeamPointers").child(userId).getValue(UserTeamPointer.class);
                 String teamId = pointer.getTeamId();
 
-                for (DataSnapshot postSnapshot : snapshot.child( "Teams" ).child( teamId ).child( "posts" ).getChildren() )
-                { // Loop through and display the posts
-                    DiscussionItem post = postSnapshot.getValue( DiscussionItem.class );
+                // Get the current team obj and create a new post obj
+                Team team = snapshot.child( "Teams" ).child( teamId ).getValue( Team.class );
+                DiscussionItem post = new DiscussionItem( postTitle, postText, userId );
 
-                    // Inflate post
-                    linearLayout = (ViewGroup) findViewById( R.id.content_frame );
-                    View postItem = LayoutInflater.from( getApplicationContext() ).inflate( R.layout.discussion_board_item, linearLayout, false);
+                // Add the new post to the posts for this team, then get that post for writing to the database
+                team.addPost( post );
+                List<DiscussionItem> newPosts = team.getPosts();
 
-                    // Display the title for the post
-                    TextView title = postItem.findViewById( R.id.discussionTitle );
-                    title.setText( post.getDiscussionTitle() );
+                // Update the posts in the database
+                DatabaseReference postsRef = snapshot.child( "Teams" ).child( teamId ).child( "posts" ).getRef();
+                postsRef.setValue( newPosts );
 
-                    // Display the text for the post
-                    TextView text = postItem.findViewById( R.id.discussionText );
-                    text.setText( post.getDiscussionText() );
+                // Notify user the post has been created
+                Toast.makeText( CreateDiscussion.this, "Post Created",
+                        Toast.LENGTH_SHORT).show();
 
-                    // Display the user who made the post
-                    UserTeamPointer postCreatorPointer = snapshot.child("UserTeamPointers").child( post.getUserId() ).getValue(UserTeamPointer.class);
-                    String postCreatorName = "";
-                    for( DataSnapshot userSnapshot : snapshot.child( "Teams" ).child( postCreatorPointer.getTeamId() ).child( "players" ).getChildren() )
-                    {
-                        User userSnapObj = userSnapshot.getValue( User.class );
-                        if( userSnapObj.getUserID().equals( postCreatorPointer.getUserId() ) )
-                        { // this obj is the post creator
-                            postCreatorName = userSnapObj.getName();
-                        }
-                    }
+                // Return user to the discussion board screen
+                Intent discussionBoard = new Intent( getApplicationContext(), DiscussionBoard.class );
+                startActivity( discussionBoard );
 
-                    // Set the text to the creators name
-                    TextView postedBy = postItem.findViewById( R.id.postedBy );
-                    postedBy.setText( "Post By: " + postCreatorName );
-
-                    // Set the image for the user's icon
-                    ImageView playerImage = postItem.findViewById( R.id.playerProfileImage );
-                    playerImage.setBackgroundResource(R.drawable.profile_icon_default);
-
-
-                    // Set listener on the post for user to view comments
-                    postItem.setClickable( true );
-                    setListener( postItem );
-
-                    // Map the post itself to the post object. Used to get reference when clicked
-                    postItemToObj.put( postItem, post );
-
-                    // Add the view to the screen w all the event data
-                    linearLayout.addView( postItem );
-                }
             }
 
             @Override
-            public void onCancelled( DatabaseError databaseError)
-            {
+            public void onCancelled( DatabaseError databaseError) {
                 System.out.println( "The read failed: " + databaseError.getCode() );
             }
         } );
     }
 
-    private void setListener( View v )
-    {
-        v.setOnClickListener( this );
+    private boolean validateForm()
+    { // Go through each field and check that all fields have been filled.
+        boolean valid = true;
+
+        // Get the inputs
+        String postTitle = postTitleInput.getText().toString();
+        String postText = postTextInput.getText().toString();
+
+
+        // Check team title input
+        if (TextUtils.isEmpty( postTitle ))
+        { // No input, inform user and return false
+            postTitleInput.setError("Required");
+            valid = false;
+        } else {
+            postTitleInput.setError(null);
+        }
+
+        // Check team post text input
+        if (TextUtils.isEmpty( postText ))
+        { // No input, inform user and return false
+            postTextInput.setError("Required");
+            valid = false;
+        } else {
+            postTextInput.setError(null);
+        }
+
+        return valid;
     }
 
     @Override
@@ -196,7 +198,7 @@ public class DiscussionBoard extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onBackPressed()
     { // Return user to the home screen
-        Intent intent = new Intent(this, DefaultHome.class );
+        Intent intent = new Intent(this, DiscussionBoard.class );
         startActivity( intent );
     }
 
@@ -215,11 +217,16 @@ public class DiscussionBoard extends AppCompatActivity implements View.OnClickLi
             startActivity( homeScreenActivity );
         }
 
-        if( v.getId() == R.id.addPost )
-        {
-            Intent addPost = new Intent( getApplicationContext(), CreateDiscussion.class );
-            startActivity( addPost );
+        if( v.getId() == R.id.createPostBtn )
+        { // Create the post
+
+            if( validateForm() )
+            { // Only attempt to create the post if all form data is valid
+                createPost();
+            }
+
         }
 
     }
+
 }
