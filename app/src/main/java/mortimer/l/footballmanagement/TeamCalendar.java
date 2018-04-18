@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -32,12 +33,18 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static android.view.View.GONE;
 
 public class TeamCalendar extends AppCompatActivity implements View.OnClickListener
 {
@@ -48,6 +55,10 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
 
     private ViewGroup linearLayout;
     private PopupWindow popupWindow;
+    private Map<View,CalendarItem> attendanceBtnToEvent = new HashMap<>();
+    private Map<View,CalendarItem> goingBtnToEvent = new HashMap<>();
+    private Map<View,CalendarItem> notGoingBtnToEvent = new HashMap<>();
+    private String teamId = "";
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
@@ -131,7 +142,7 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
                             { // Current user found
                                 if( !user.getTeamOrganiser() )
                                 { // User is not the team organiser, hide the add event button
-                                    findViewById( R.id.addEvent ).setVisibility( View.GONE );
+                                    findViewById( R.id.addEvent ).setVisibility( GONE );
                                 }
                                 break; // Operation done if required, break
                             }
@@ -154,38 +165,26 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
                     public void onDataChange( DataSnapshot snapshot )
                     {
 
-                        // Used to sort the dates of the eents
-                        class StringDateComparator implements Comparator<String>
-                        {
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                            public int compare(String lhs, String rhs)
-                            {
-                                try
-                                {
-                                    return dateFormat.parse(lhs).compareTo(dateFormat.parse(rhs));
-                                } catch (ParseException e)
-                                {
-                                    e.printStackTrace();
-                                }
-                                // Default return on failure
-                                return 0;
-                            }
-
-                        }
-
                         LinkedList<CalendarItem> events = new LinkedList<>();
                         LinkedList<String> dates = new LinkedList<>();
                         HashMap<String,CalendarItem> dateToObj = new HashMap<>();
 
                         // Check if date in the past, if it is delete this date
-                        String currentDate = new SimpleDateFormat( "dd.MM.yyyy").format( new Date() );
+                        Date currentDate = new Date();
                         SimpleDateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy" );
 
                         for( DataSnapshot eventSnapshot : snapshot.getChildren() )
                         { // Get the calendaar items from the snapshot
                             CalendarItem event = eventSnapshot.getValue(CalendarItem.class);
 
-                            if( currentDate.compareTo( event.getDate() ) > 0 )
+                            Date eventDate = null;
+                            try { // Set event date to Date obj for comparison
+                                eventDate = dateFormat.parse( event.getDate() );
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                            if( currentDate.compareTo( eventDate ) > 0 )
                             { // Current date is after the event date, event past delete it
                                 DatabaseReference eventRef = eventSnapshot.getRef();
                                 eventRef.removeValue();
@@ -233,6 +232,9 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
                             // Set listener on the attendance button
                             Button attendanceBtn = calendarItem.findViewById( R.id.viewAttendanceBtn );
                             setListener( attendanceBtn );
+
+                            // Map attendance button to the calendar item
+                            attendanceBtnToEvent.put( (View) attendanceBtn, event );
 
                             // Add the view to the screen w all the event data
                             linearLayout.addView( calendarItem );
@@ -305,6 +307,19 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
+    private List<CalendarItem> deleteEvent( List<CalendarItem> events, CalendarItem event )
+    { // Auxillary function to delete an event from the current events list based on its hash code
+        for( CalendarItem item : events )
+        {
+            if( item.getDate().equals( event.getDate() ) && item.getTime().equals( event.getTime() ) )
+            { // Remove the item
+                events.remove( item );
+                break;
+            }
+        }
+        return events;
+    }
+
     @Override
     public void onClick( View v )
     {
@@ -323,36 +338,200 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
         if( v.getId() == R.id.closePopup )
         { // close the popup
             popupWindow.dismiss();
-            // Dim the background around the popup window
-                //RelativeLayout calendarMainLayout = (RelativeLayout) findViewById( R.id.calendarRelLayout );
-                //calendarMainLayout.getForeground().setAlpha( 0 );
+        }
+
+        if( v.getId() == R.id.goingBtn || v.getId() == R.id.notGoingBtn )
+        { // Handle attendance selection event
+
+            final View view = v;
+
+            // Read the database
+            // Get a reference to the database
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference databaseRef = database.getReference();
+
+            databaseRef.addListenerForSingleValueEvent( new ValueEventListener()
+            {
+                @Override
+                public void onDataChange( DataSnapshot snapshot )
+                {
+                    // Get team ref for overwrite
+                    Team team = snapshot.child( "Teams" ).child( teamId ).getValue( Team.class );
+
+                    List<CalendarItem> events = ( team.getEvents() == null ) ? new ArrayList<CalendarItem>() : team.getEvents();
+                    String userId = auth.getUid();
+
+
+                    // If going button, add to calendar item using method, write to database
+                    if( view.getId() == R.id.goingBtn )
+                    {
+                        CalendarItem event = goingBtnToEvent.get( view );
+                        events = deleteEvent( events, event );
+                        event.setPlayerGoing( auth.getUid() );
+                        events.add( event );
+                        // Add the newly made event to the list of events for this team
+
+                        // Notify user they are attending event
+                        Toast.makeText( TeamCalendar.this, "You are attending this event",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    // If not going button, add to calendar item using method, write to database
+                    if( view.getId() == R.id.notGoingBtn )
+                    {
+                        CalendarItem event = notGoingBtnToEvent.get( view );
+                        events = deleteEvent( events, event );
+                        event.setPlayerNotGoing( auth.getUid() );
+                        events.add( event );
+                        // Add the newly made event to the list of events for this team
+
+                        // Notify user they are not attending the event
+                        Toast.makeText( TeamCalendar.this, "You are not attending this event",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    // Get DB instance and reference to the team's events list in the database
+                    FirebaseDatabase database =  FirebaseDatabase.getInstance();
+                    DatabaseReference teamRef = database.getReference().child( "Teams" ).child( teamId ).child( "events" );
+
+                    // Update the events list w the list that has the new event added to it
+                    teamRef.setValue( events );
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
         }
 
         if( v.getId() == R.id.viewAttendanceBtn )
-        {
+        { // Create the popup to display attendance
+
             // Get layout container and inflate it
             LayoutInflater popupLayout = (LayoutInflater) getApplicationContext().getSystemService( LAYOUT_INFLATER_SERVICE );
-            ViewGroup container = (ViewGroup) popupLayout.inflate( R.layout.attendance_popup, null );
+            final ViewGroup popupContainer = (ViewGroup) popupLayout.inflate( R.layout.attendance_popup, null );
 
             // Set listener for close button
-            container.findViewById( R.id.closePopup ).setOnClickListener( this );
+            popupContainer.findViewById( R.id.closePopup ).setOnClickListener( this );
 
             // Get parent layout
             RelativeLayout parentLayout = findViewById( R.id.calendarRelLayout );
 
-            // Get the height and width of the screen, to display the popup accordingly
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            int height = displayMetrics.heightPixels - 10;
-            int width = displayMetrics.widthPixels - 10;
-
-            // Dim the background around the popup window
-                //RelativeLayout calendarMainLayout = (RelativeLayout) findViewById( R.id.calendarRelLayout );
-                //calendarMainLayout.getForeground().setAlpha( 220 );
-
             // Display popup window
-            popupWindow = new PopupWindow( container, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true );
+            popupWindow = new PopupWindow( popupContainer, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true );
             popupWindow.showAtLocation( parentLayout, Gravity.CENTER, 0, 0 );
+
+
+
+
+            // Get the corresponding event based on which attendance button is pressed
+            CalendarItem event = attendanceBtnToEvent.get( v );
+
+            // Set the event title on the popup
+            TextView popupTitle = popupContainer.findViewById( R.id.popupTitle );
+            popupTitle.setText( event.getEventTitle() );
+
+            final List<String> playersGoing = ( event.getPlayersGoing() == null ) ? new ArrayList<String>() : event.getPlayersGoing();
+            final List<String> playersNotGoing = ( event.getPlayersNotGoing() == null ) ? new ArrayList<String>() : event.getPlayersNotGoing();
+
+            // Assign button mappings to map the button to the event
+            final Button goingBtn = popupContainer.findViewById( R.id.goingBtn );
+            goingBtnToEvent.put( (View) goingBtn, event );
+            goingBtn.setOnClickListener( this );
+            if( playersGoing.contains( auth.getUid() ) )
+            { // If player is going to event already, cannot see going button
+                goingBtn.setVisibility( View.GONE );
+            }
+
+            final Button notGoingBtn = popupContainer.findViewById( R.id.notGoingBtn );
+            notGoingBtnToEvent.put( (View) notGoingBtn, event );
+            notGoingBtn.setOnClickListener( this );
+            if( playersNotGoing.contains( auth.getUid() ) )
+            { // Player not going, hide not going button
+                notGoingBtn.setVisibility( View.GONE );
+            }
+
+            // Get a reference to the database
+            FirebaseDatabase database =  FirebaseDatabase.getInstance();
+            DatabaseReference databaseRef = database.getReference();
+
+            databaseRef.addListenerForSingleValueEvent( new ValueEventListener()
+            {
+                @Override
+                public void onDataChange( DataSnapshot snapshot ) {
+
+                    // Get user id, used to locate the team this user plays for
+                    FirebaseUser currentUser = auth.getCurrentUser();
+                    final String userId = currentUser.getUid();
+
+                    // Get the current team id
+                    UserTeamPointer pointer = snapshot.child("UserTeamPointers").child(userId).getValue(UserTeamPointer.class);
+                    teamId = pointer.getTeamId();
+
+                    // Get user reference
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference playersRef = database.getReference().child("Teams").child(teamId).child("players");
+
+                    playersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+
+                                User player = userSnapshot.getValue(User.class);
+                                LinearLayout attendanceList;
+
+                                if( playersGoing.contains( player.getUserID() ) )
+                                { // Set list as the going list
+                                    attendanceList = popupContainer.findViewById( R.id.playersGoingContainer );
+                                }
+                                else if( playersNotGoing.contains( player.getUserID() ) )
+                                { // Set list as the not going list
+                                    attendanceList = popupContainer.findViewById( R.id.playersNotGoingContainer );
+                                }
+                                else
+                                { // Set the list as no response
+                                    attendanceList = popupContainer.findViewById( R.id.playersNotRespondedContainer );
+                                }
+
+
+                                // Draw the player item into the selected list
+                                View playerListItem = LayoutInflater.from(getApplicationContext()).inflate(R.layout.players_list_item_layout, attendanceList, false);
+
+                                // Display the player's name
+                                TextView playerNameText = playerListItem.findViewById(R.id.playerName);
+                                playerNameText.setText(player.getName());
+
+                                // Display the player's positions
+                                TextView playerPositionsText = playerListItem.findViewById(R.id.playerPositions);
+                                playerPositionsText.setText(player.getPreferredPositions());
+
+                                // Set the image for the user's icon
+                                ImageView playerImage = playerListItem.findViewById( R.id.playerProfileImage );
+                                playerImage.setBackgroundResource(R.drawable.profile_icon_default);
+
+                                // Add the view to the screen w all the event data
+                                attendanceList.addView(playerListItem);
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError)
+                {
+
+                }
+            });
+
+
 
         }
     }

@@ -1,5 +1,10 @@
 package mortimer.l.footballmanagement;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class CalendarItem
 {
     private String eventTitle;
@@ -7,6 +12,8 @@ public class CalendarItem
     private String date;
     private String location;
     private String notes;
+    private List<String> playersGoing;
+    private List<String> playersNotGoing;
 
 
     CalendarItem()
@@ -22,6 +29,38 @@ public class CalendarItem
         this.location = location;
         this.notes = notes;
     }
+
+    // Can set a player as going and get this list
+    public void setPlayerGoing ( String userId )
+    {
+        List<String> going = ( this.playersGoing == null ) ? new ArrayList<String>() : this.playersGoing;
+        going.add( userId );
+        this.playersGoing = going;
+
+        List<String> notGoing = ( this.getPlayersNotGoing() == null ) ? new ArrayList<String>() : this.getPlayersNotGoing();
+        if( notGoing.contains( userId ) )
+        { // Remove user from not going list if they are there
+            notGoing.remove( userId );
+        }
+    }
+
+    public List<String> getPlayersGoing() { return this.playersGoing; }
+
+    // Can set a player as not going and get this list
+    public void setPlayerNotGoing( String userId )
+    {
+        List<String> notGoing = ( this.playersNotGoing == null ) ? new ArrayList<String>() : this.playersNotGoing;
+        notGoing.add( userId );
+        this.playersNotGoing = notGoing;
+
+        List<String> going = ( this.getPlayersGoing() == null ) ? new ArrayList<String>() : this.getPlayersGoing();
+        if( going.contains( userId ) )
+        { // Remove user from going if they are there
+            going.remove( userId );
+        }
+    }
+
+    public List<String> getPlayersNotGoing() { return this.playersNotGoing; }
 
     // Get and setter for notes
     public String getNotes() {

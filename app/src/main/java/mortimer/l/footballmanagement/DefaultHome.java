@@ -25,6 +25,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+
 public class DefaultHome extends AppCompatActivity implements View.OnClickListener
 {
 
@@ -127,12 +134,50 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
                         }
                         else { // Loop through and display the upcoming events
 
+                            LinkedList<CalendarItem> events = new LinkedList<>();
+                            LinkedList<String> dates = new LinkedList<>();
+                            HashMap<String,CalendarItem> dateToObj = new HashMap<>();
+
+                            // Check if date in the past, if it is delete this date
+                            Date currentDate = new Date();
+                            SimpleDateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy" );
+
                             for (DataSnapshot eventSnapshot : snapshot.getChildren()) {
-                                if (i == 3) { // Dynamically display a max of 3 events
+                                if (i == 3)
+                                { // Dynamically display a max of 3 events
                                     break;
                                 }
 
+                                // Get the calendaar items from the snapshot
                                 CalendarItem event = eventSnapshot.getValue(CalendarItem.class);
+
+                                Date eventDate = null;
+                                try { // Set event date to Date obj for comparison
+                                    eventDate = dateFormat.parse( event.getDate() );
+                                } catch (ParseException e)
+                                {
+                                        e.printStackTrace();
+                                }
+
+                                if( currentDate.compareTo( eventDate ) > 0 )
+                                { // Current date is after the event date, event past delete it
+                                    DatabaseReference eventRef = eventSnapshot.getRef();
+                                    eventRef.removeValue();
+                                } else { // Setup the event for date ordering
+                                    events.add(event);
+                                    dateToObj.put(event.getDate(), event);
+                                    dates.add(event.getDate());
+                                }
+
+                            }
+
+                            // Sort the events based on date
+                            Collections.sort( dates, new StringDateComparator() );
+
+                            for( String date : dates )
+                            {
+
+                                CalendarItem event = dateToObj.get( date );
 
                                 // Add calendarItem
                                 linearLayout = (ViewGroup) findViewById(R.id.upcomingEventsContainer);
@@ -143,8 +188,8 @@ public class DefaultHome extends AppCompatActivity implements View.OnClickListen
                                 title.setText(event.getEventTitle());
 
                                 // Display the date for the event
-                                TextView date = upcomingEventItem.findViewById(R.id.eventDate);
-                                date.setText(event.getDate());
+                                TextView eventDate = upcomingEventItem.findViewById(R.id.eventDate);
+                                eventDate.setText(event.getDate());
 
                                 // Display the location for the event
                                 TextView location = upcomingEventItem.findViewById(R.id.eventLocation);
