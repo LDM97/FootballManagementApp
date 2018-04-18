@@ -37,7 +37,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:orientation="vertical"
         android:background="@drawable/rounded_corner"
         android:layout_margin="10dp">
@@ -71,10 +71,9 @@
             <!-- Dynamic list of players container -->
             <LinearLayout
                 android:id="@+id/playersGoingContainer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center"
                 android:layout_gravity="center">
 
             </LinearLayout>
@@ -102,10 +101,9 @@
             <!-- Dynamic list of players container -->
             <LinearLayout
                 android:id="@+id/playersNotGoingContainer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center"
                 android:layout_gravity="center">
 
             </LinearLayout>
@@ -134,12 +132,10 @@
             <!-- Dynamic list of players container -->
             <LinearLayout
                 android:id="@+id/playersNotRespondedContainer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center"
                 android:layout_gravity="center">
-
             </LinearLayout>
 
     </LinearLayout>

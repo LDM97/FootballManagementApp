@@ -421,7 +421,7 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
 
             // Display popup window
             popupWindow = new PopupWindow( popupContainer, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true );
-            popupWindow.showAtLocation( parentLayout, Gravity.CENTER, 0, 0 );
+            popupWindow.showAtLocation( parentLayout, Gravity.CENTER, 0, 35 );
 
 
 
@@ -510,6 +510,8 @@ public class TeamCalendar extends AppCompatActivity implements View.OnClickListe
                                 // Set the image for the user's icon
                                 ImageView playerImage = playerListItem.findViewById( R.id.playerProfileImage );
                                 playerImage.setBackgroundResource(R.drawable.profile_icon_default);
+                                playerImage.setMaxWidth( 10 );
+                                playerImage.setMaxHeight( 5 );
 
                                 // Add the view to the screen w all the event data
                                 attendanceList.addView(playerListItem);

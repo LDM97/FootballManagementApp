@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_margin="5dp">
@@ -15,24 +15,24 @@
 
         <!-- Container for profile image -->
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_width="50dp"
             android:layout_height="50dp"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/playerProfileImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="centerInside"
                 android:adjustViewBounds="true"
+                android:scaleType="centerInside"
                 app:srcCompat="@drawable/profile_icon_default" />
 
         </LinearLayout>
 
         <!-- Container for the player info: Name and position -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1">
