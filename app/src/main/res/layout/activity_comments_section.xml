@@ -31,28 +31,59 @@
                 android:fillViewport="true">
 
                 <LinearLayout
-                    android:id="@+id/content_frame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/postContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/commentsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                </LinearLayout>
+
+                    <!-- add seperator line between the containers -->
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/colorPrimary"/>
+
+                <EditText
+                    android:id="@+id/addComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="115dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_corner"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="Add a comment..."
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:padding="10dp"
+                    android:singleLine="false" />
+
+                <Button
+                    android:id="@+id/addCommentBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="10dp"
+                    android:text="Add Comment" />
 
                 </LinearLayout>
 
             </android.support.v4.widget.NestedScrollView>
 
         </LinearLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/addPost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="7dp"
-            app:srcCompat="@drawable/add_icon"
-            android:backgroundTint="@color/colorPrimary"
-            tools:ignore="VectorDrawableCompat"
-            app:borderWidth="0dp"/>
 
     </RelativeLayout>
 

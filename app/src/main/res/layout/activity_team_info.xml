@@ -58,30 +58,29 @@
 
         <!-- Players and team info container -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0"
+            android:layout_weight="2"
             android:orientation="horizontal">
 
-            <android.support.v4.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:isScrollContainer="true"
-                android:id="@+id/scrollView"
-                android:fillViewport="true"
-                android:layout_weight="1">
-
-                <!-- Dynamic list of players container -->
-                <LinearLayout
-                    android:id="@+id/playersListContainer"
-                    android:layout_width="match_parent"
+                <android.support.v4.widget.NestedScrollView
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
+                    android:isScrollContainer="true"
+                    android:id="@+id/scrollView"
+                    android:fillViewport="true"
                     android:layout_weight="1">
 
-                </LinearLayout>
+                    <!-- Dynamic list of players container -->
+                    <LinearLayout
+                        android:id="@+id/playersListContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-            </android.support.v4.widget.NestedScrollView>
+                    </LinearLayout>
+
+                </android.support.v4.widget.NestedScrollView>
 
             <!-- add seperator line between the containers -->
             <View
@@ -91,10 +90,10 @@
 
             <!-- Container for team info -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="2">
 
                 <LinearLayout
                     android:layout_width="match_parent"

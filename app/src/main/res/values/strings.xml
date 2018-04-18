@@ -4,4 +4,5 @@
     <string name="title_activity_default_home">DefaultHome</string>
     <string name="title_activity_add_event">AddEvent</string>
     <string name="title_activity_create_discussion">CreateDiscussion</string>
+    <string name="title_activity_comments_section">CommentsSection</string>
 </resources>

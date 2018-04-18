@@ -215,6 +215,19 @@ public class DiscussionBoard extends AppCompatActivity implements View.OnClickLi
             startActivity( homeScreenActivity );
         }
 
+        if( postItemToObj.containsKey( v ) )
+        { // Post has been clicked, take the user to that post's comments section
+            DiscussionItem post = postItemToObj.get( v );
+
+            // Pass the data required to identify the post and start the comments section activity
+            Intent commentsSection = new Intent( getApplicationContext(), CommentsSection.class );
+            commentsSection.putExtra( "discussionTitle", post.getDiscussionTitle() );
+            commentsSection.putExtra( "discussionText", post.getDiscussionText() );
+
+            startActivity( commentsSection );
+
+        }
+
         if( v.getId() == R.id.addPost )
         {
             Intent addPost = new Intent( getApplicationContext(), CreateDiscussion.class );

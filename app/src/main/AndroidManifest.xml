@@ -56,6 +56,10 @@
             android:name=".CreateDiscussion"
             android:label="@string/title_activity_create_discussion"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".CommentsSection"
+            android:label="@string/title_activity_comments_section"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
