@@ -1,8 +1,12 @@
+
+    // Class to handle the Login activity. Takes in a user's login details, validates them and either
+    // logs the user in or denies access.
+
     package mortimer.l.footballmanagement;
 
+    // Android imports
     import android.support.v7.app.AppCompatActivity;
     import android.os.Bundle;
-
     import android.support.v7.widget.Toolbar;
     import android.view.View;
     import android.widget.Button;
@@ -13,6 +17,7 @@
     import android.widget.Toast;
     import android.content.Intent;
 
+    // Firebase imports
     import com.google.android.gms.tasks.OnCompleteListener;
     import com.google.android.gms.tasks.Task;
     import android.support.annotation.NonNull;
@@ -25,21 +30,15 @@
     import com.google.firebase.database.FirebaseDatabase;
     import com.google.firebase.database.ValueEventListener;
 
-    import java.util.List;
-
     public class Login extends AppCompatActivity implements View.OnClickListener
     {
         private static final String TAG = "EmailPassword";
 
-
+        // Email and password input
         private EditText emailInput;
         private EditText passwordInput;
-        private Button createAccountBtn;
-        private Button signInBtn;
 
-        private TextView userStatus;
-        private Button logoutBtn;
-
+        // Firebase authenticator
         private FirebaseAuth auth;
 
         @Override
@@ -48,7 +47,7 @@
             super.onCreate( savedInstanceState );
             setContentView( R.layout.activity_login);
 
-            // Custom toolbar
+            // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
             setSupportActionBar( custToolBar );
             getSupportActionBar().setDisplayShowTitleEnabled( false );
@@ -56,20 +55,18 @@
             TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
             actionBarTitle.setText( "Login" );
 
-            // Views
+            // Get the views of the user inputs
             emailInput = findViewById( R.id.emailInput );
             passwordInput = findViewById( R.id.passwordInput );
-            createAccountBtn = findViewById( R.id.createAccountBtn );
-            signInBtn = findViewById( R.id.signInBtn );
 
-            // Buttons
+            // Setup listeners on the buttons
             findViewById( R.id.createAccountBtn ).setOnClickListener( this );
             findViewById( R.id.signInBtn ).setOnClickListener( this );
 
             // Get Firebase authenticator
             auth = FirebaseAuth.getInstance();
 
-            // Hide the home button
+            // Hide the home button, not logged in yet
             findViewById( R.id.homeBtn ).setVisibility( View.GONE );
         }
 
@@ -102,12 +99,12 @@
                     {
 
                         if ( snapshot.exists() )
-                        { // Exists, user has no team
+                        { // Exists, user has no team, sign in to the no team home screen
                             Intent noTeamHomeActivity = new Intent( getApplicationContext(), NoTeamHome.class );
                             startActivity( noTeamHomeActivity );
                         }
                         else
-                        { // snapshot doesn't exist, login registered to a team
+                        { // snapshot doesn't exist, login registered to a team, sign in to default home screen
                             Intent defaultHomeActivity = new Intent( getApplicationContext(), DefaultHome.class );
                             startActivity( defaultHomeActivity );
                         }
@@ -123,19 +120,12 @@
 
 
             }
-            else
-            { // User is not logged in
-
-                // Show the login options
-                findViewById( R.id.emailInput ).setVisibility( View.VISIBLE );
-                findViewById( R.id.passwordInput ).setVisibility( View.VISIBLE );
-                findViewById( R.id.createAccountBtn ).setVisibility( View.VISIBLE );
-                findViewById( R.id.signInBtn ).setVisibility( View.VISIBLE );
-
-            }
         }
 
-        private void signIn( String email, String password ) {
+        private void signIn( String email, String password )
+        { // Attempt to login the user
+
+            // Only attempt sign in if login credentials are present
             Log.d( TAG, "signIn:" + email );
             if ( !validateForm() ) {
                 return;
@@ -171,7 +161,8 @@
         }
 
         private boolean validateForm()
-        {
+        { // Check the login credentials have been entered
+
             boolean valid = true;
 
             // Check there is an email input
@@ -200,6 +191,7 @@
                 passwordInput.setError( null );
             }
 
+            // False if at least one input is not present
             return valid;
         }
 
@@ -215,12 +207,12 @@
         {
             switch( v.getId() )
             {
-                case ( R.id.createAccountBtn ):
+                case ( R.id.createAccountBtn ): // Take the user to the create account screen
 
                     Intent createAccountActivity = new Intent( getApplicationContext(), CreateAccount.class );
                     startActivity( createAccountActivity );
 
-                case ( R.id.signInBtn ):
+                case ( R.id.signInBtn ): // Attempt to sign in the user with the given credentials
                     signIn( emailInput.getText().toString(), passwordInput.getText().toString() );
             }
 

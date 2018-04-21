@@ -1,5 +1,10 @@
+
+    // Class to handle the CreateAccount activity. Handles user inputs for the account data to be
+    // created, writes these valid inputs as a new user to the database.
+
     package mortimer.l.footballmanagement;
 
+    // Andorid imports
     import android.content.Intent;
     import android.os.Bundle;
     import android.support.annotation.NonNull;
@@ -8,12 +13,11 @@
     import android.text.TextUtils;
     import android.util.Log;
     import android.view.View;
-
-    import android.widget.Button;
     import android.widget.EditText;
     import android.widget.TextView;
     import android.widget.Toast;
 
+    // Firebase imports
     import com.google.android.gms.tasks.OnCompleteListener;
     import com.google.android.gms.tasks.Task;
     import com.google.firebase.auth.AuthResult;
@@ -26,14 +30,17 @@
     public class CreateAccount extends AppCompatActivity implements View.OnClickListener
     {
 
+        // Setup the id for the type of account to be created, used by Firebase
         private static final String TAG = "EmailPassword";
 
+        // Get the inputs for the new account data
         private EditText emailInput;
         private EditText passwordInput;
         private EditText nameInput;
         private EditText prefPositionsInput;
         private EditText bioInput;
 
+        // Get the Firebase authenticator to check logins
         private FirebaseAuth auth;
 
         @Override
@@ -42,40 +49,41 @@
             super.onCreate( savedInstanceState );
             setContentView( R.layout.activity_create_account );
 
-            // Custom toolbar
+            // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
             setSupportActionBar( custToolBar );
             getSupportActionBar().setDisplayShowTitleEnabled( false );
-
-            // Set the title text for the toolbar
             TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
             actionBarTitle.setText( "Create Profile" );
 
-            // Views
+            // Get the user input views
             emailInput = findViewById( R.id.newAccEmail );
             passwordInput = findViewById( R.id.newAccPassword );
             nameInput = findViewById( R.id.newAccName );
             prefPositionsInput = findViewById( R.id.newAccPrefPositions );
             bioInput = findViewById( R.id.newAccBio );
 
-            // Buttons
+            // Setup the button listeners
             findViewById( R.id.createNewAccBtn ).setOnClickListener( this );
 
             // Get Firebase authenticator
             auth = FirebaseAuth.getInstance();
 
-            // Hide the home button
+            // Hide the home button, user not logged in yet
             findViewById( R.id.homeBtn ).setVisibility( View.GONE );
         }
 
         private void createAccount( String email, String password )
-        {
+        { // Attempt to create the new account
+
             // Check the inputs are there and valid
             Log.d( TAG, "createAccount:" + email );
-            if ( !validateForm() ) {
+            if ( !validateForm() )
+            {
                 return;
             }
 
+            // Valid inputs, create the account on Firebase database
             auth.createUserWithEmailAndPassword( email, password )
                     .addOnCompleteListener( this, new OnCompleteListener<AuthResult>()
                     {
@@ -114,8 +122,9 @@
                     } );
         }
 
-        private void uploadData() // Authentication & form validation success in createAccount func, upload data to the database
-        {
+        private void uploadData()
+        { // Authentication & form validation success in createAccount func, upload data to the database
+
             // Get the inputs
             String newEmail = emailInput.getText().toString();
             String newName = nameInput.getText().toString();
@@ -130,14 +139,14 @@
             FirebaseDatabase database =  FirebaseDatabase.getInstance();
             User newUser = new User( uid, newName, newEmail, newPositions, newBio );
 
-            // get db reference, get "reference location relative to this one".
-            // Child( "Users" ) get location of users relative to the database,
+            // Get database reference and write the data of the new user to the database
             DatabaseReference dbRef = database.getReference().child( "Users" ).child( uid );
             dbRef.setValue( newUser );
         }
 
         private boolean validateForm()
-        {
+        { // Check all data inputted is valid before trying to create the new account
+
             // Go through each field and check that all fields have been filled.
             boolean valid = true;
 
@@ -231,7 +240,7 @@
         public void onClick( View v )
         {
             if ( v.getId() == R.id.createNewAccBtn )
-            {
+            { // User attempts to create new account, run create account code
                     createAccount( emailInput.getText().toString(), passwordInput.getText().toString() );
             }
 

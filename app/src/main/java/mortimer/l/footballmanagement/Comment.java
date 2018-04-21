@@ -1,35 +1,38 @@
-package mortimer.l.footballmanagement;
 
-public class Comment
-{
-    private String comment;
-    private String userId;
+    // Simple class to store a comment made by a user on an post on the discussion board. This object
+    // is passed to Firebase to store the comment data
 
-    public Comment()
+    package mortimer.l.footballmanagement;
+
+    public class Comment
     {
-        // Empty constructor used by Firebase to return comment objects
-    }
+        // The data required to be stored
+        private String comment;
+        private String userId;
 
-    public Comment( String comment, String userId )
-    {
-        this.comment = comment;
-        this.userId = userId;
-    }
+        public Comment()
+        {
+            // Empty constructor used by Firebase to return comment objects
+        }
 
-    public String getComment() {
-        return comment;
-    }
+        public Comment( String comment, String userId )
+        { // Store the data
+            this.comment = comment;
+            this.userId = userId;
+        }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+        // Get and setters
+        public String getComment() {
+            return comment;
+        }
 
-    public String getUserId() {
+        public void setComment(String comment) {
+            this.comment = comment;
+        }
 
-        return userId;
-    }
+        public String getUserId() { return userId; }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
     }
-}

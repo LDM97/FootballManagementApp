@@ -1,7 +1,12 @@
+
+    // Simple class to store the data about a user. Stored in an object and passed too and from the
+    // Firebase database for storage
+
     package mortimer.l.footballmanagement;
 
     public class User
     {
+        // User details to be stored
         private String userID;
         private String name = "";
         private String email;
@@ -17,6 +22,7 @@
 
         public User( String uid, String nameInput, String emailInput, String prefPositionsInput, String bioInput )
         {
+            // Store the data about the user
             this.userID = uid;
             this.name = nameInput;
             this.email = emailInput;
