@@ -12,7 +12,7 @@
     // Used to sort the dates of the events
     class StringDateComparator implements Comparator<String>
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         public int compare(String lhs, String rhs)
         {
             try

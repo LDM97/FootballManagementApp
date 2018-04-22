@@ -9,7 +9,6 @@
     import android.os.Bundle;
     import android.support.v7.widget.Toolbar;
     import android.view.View;
-    import android.widget.Button;
     import android.widget.EditText;
     import android.widget.TextView;
     import android.util.Log;
@@ -53,7 +52,7 @@
             getSupportActionBar().setDisplayShowTitleEnabled( false );
 
             TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
-            actionBarTitle.setText( "Login" );
+            actionBarTitle.setText( getString( R.string.login_title ) );
 
             // Get the views of the user inputs
             emailInput = findViewById( R.id.emailInput );

@@ -35,12 +35,12 @@
     {
 
         // Get string resources for pointers to database directories
-        String userTeamPointer;
-        String teamsPointer;
-        String postsPointer;
-        String commentsPointer;
-        String playersPointer;
-        String eventsPointer;
+        private String userTeamPointer;
+        private String teamsPointer;
+        private String postsPointer;
+        private String commentsPointer;
+        private String playersPointer;
+        private String eventsPointer;
 
         // Post data inputs
         private EditText postTitleInput;
@@ -48,7 +48,7 @@
 
         // Firebase authenticator and nav draw handlers
         private FirebaseAuth auth;
-        private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
+        private final NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
         private DrawerLayout navDraw;
 
         @Override

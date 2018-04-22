@@ -6,7 +6,6 @@
     package mortimer.l.footballmanagement;
 
     // Android imports
-    import android.annotation.SuppressLint;
     import android.content.Intent;
     import android.os.Bundle;
     import android.support.design.widget.NavigationView;
@@ -38,9 +37,9 @@
     {
 
         // Get string resources for pointers to database directories
-        String userTeamPointer;
-        String teamsPointer;
-        String eventsPointer;
+        private String userTeamPointer;
+        private String teamsPointer;
+        private String eventsPointer;
 
         // Inputs
         private EditText eventTitleInput;
@@ -51,7 +50,7 @@
 
         // Firebase auth and navigation drawer items
         private FirebaseAuth auth;
-        private NavDrawerHandler navDrawerHandler = new NavDrawerHandler();
+        private final NavDrawerHandler navDrawerHandler = new NavDrawerHandler();
         private DrawerLayout navDraw;
 
         @Override

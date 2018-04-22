@@ -34,7 +34,7 @@
         private static final String TAG = "EmailPassword";
 
         // Get string resources for pointers to database directories
-        String userPointer;
+        private String userPointer;
 
         // Get the inputs for the new account data
         private EditText emailInput;

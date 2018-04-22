@@ -58,7 +58,6 @@
 
                     <!-- List the players who are going. Dynamically generated from the database -->
                     <TextView
-                        android:id="@+id/going"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -88,7 +87,6 @@
 
                     <!-- List the players who are not going. Dynamically generated from the database -->
                     <TextView
-                        android:id="@+id/notGoing"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
@@ -118,7 +116,6 @@
 
                     <!-- List the players who have not responded. Dynamically generated from the database -->
                     <TextView
-                        android:id="@+id/noResponse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"

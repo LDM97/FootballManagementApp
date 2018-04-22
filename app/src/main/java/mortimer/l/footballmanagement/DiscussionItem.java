@@ -8,7 +8,7 @@
     import java.util.LinkedList;
     import java.util.List;
 
-    public class DiscussionItem
+    class DiscussionItem
     {
         private String discussionTitle;
         private String discussionText;
@@ -32,8 +32,8 @@
         public List<Comment> getComments()
         {
             // Return newly created list if is the first comment
-            List<Comment> comments = ( this.comments == null ) ?  new LinkedList<Comment>() : this.comments;
-            return comments;
+            List<Comment> returnedComments = ( this.comments == null ) ?  new LinkedList<Comment>() : this.comments;
+            return returnedComments;
         }
 
         public void setComments( List<Comment> comments )

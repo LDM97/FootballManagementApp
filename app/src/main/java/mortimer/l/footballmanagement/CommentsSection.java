@@ -42,15 +42,15 @@
     {
 
         // Get string resources for pointers to database directories
-        String userTeamPointer;
-        String teamsPointer;
-        String postsPointer;
-        String commentsPointer;
-        String playersPointer;
+        private String userTeamPointer;
+        private String teamsPointer;
+        private String postsPointer;
+        private String commentsPointer;
+        private String playersPointer;
 
         // Firebase authenticator and navigation drawer items
         private FirebaseAuth auth;
-        private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
+        private final NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
         private DrawerLayout navDraw;
 
         // View group of the containers for the post and comments to be dynamically displayed in
@@ -59,7 +59,7 @@
 
         // Get the text input for the comment a user can add and store the current post veinw viewed
         private EditText addCommentInput;
-        DiscussionItem currentPost;
+        private DiscussionItem currentPost;
 
         @Override
         protected void onCreate(Bundle savedInstanceState)

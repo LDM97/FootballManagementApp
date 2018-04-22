@@ -42,13 +42,13 @@
     public class TeamSearchResults extends AppCompatActivity implements View.OnClickListener
     {
         // Get string resources for pointers to database directories
-        String userTeamPointer;
-        String teamsPointer;
-        String userPointer;
+        private String userTeamPointer;
+        private String teamsPointer;
+        private String userPointer;
 
         // Firebase authenticator and navigation draw handler
         private FirebaseAuth auth;
-        private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
+        private final NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
         private DrawerLayout navDraw;
 
         // Map the dynamically displayed views to the team, so a selected team can be identified

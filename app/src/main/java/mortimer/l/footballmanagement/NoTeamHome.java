@@ -29,7 +29,7 @@
 
         // Firebase authenticator and navigation draw handler setup
         private FirebaseAuth auth;
-        private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
+        private final NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
         private DrawerLayout navDraw;
 
         @Override

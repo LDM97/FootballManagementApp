@@ -41,13 +41,13 @@
     public class DefaultHome extends AppCompatActivity implements View.OnClickListener
     {
         // Get string resources for pointers to database directories
-        String userTeamPointer;
-        String teamsPointer;
-        String eventsPointer;
+        private String userTeamPointer;
+        private String teamsPointer;
+        private String eventsPointer;
 
         // Firebase authenticator and navigation draw handlers
         private FirebaseAuth auth;
-        private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
+        private final NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
         private DrawerLayout navDraw;
 
         // Layout for dynamically displaying the upcoming events

@@ -4,7 +4,7 @@
 
     package mortimer.l.footballmanagement;
 
-    public class User
+    class User
     {
         // User details to be stored
         private String userID;

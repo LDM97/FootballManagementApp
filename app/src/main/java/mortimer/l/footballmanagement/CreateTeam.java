@@ -31,9 +31,9 @@
     public class CreateTeam extends AppCompatActivity implements View.OnClickListener
     {
         // Get string resources for pointers to database directories
-        String userTeamPointer;
-        String teamsPointer;
-        String userPointer;
+        private String userTeamPointer;
+        private String teamsPointer;
+        private String userPointer;
 
         // Team info inputs
         private EditText teamNameInput;

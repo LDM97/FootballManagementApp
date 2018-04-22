@@ -52,20 +52,20 @@
     public class TeamCalendar extends AppCompatActivity implements View.OnClickListener
     {
         // Get string resources for pointers to database directories
-        String userTeamPointer;
-        String teamsPointer;
-        String playersPointer;
-        String eventsPointer;
+        private String userTeamPointer;
+        private String teamsPointer;
+        private String playersPointer;
+        private String eventsPointer;
 
         private FirebaseAuth auth;
-        private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
+        private final NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
         private DrawerLayout navDraw;
 
         private ViewGroup linearLayout;
         private PopupWindow popupWindow;
-        private Map<View,CalendarItem> attendanceBtnToEvent = new HashMap<>();
-        private Map<View,CalendarItem> goingBtnToEvent = new HashMap<>();
-        private Map<View,CalendarItem> notGoingBtnToEvent = new HashMap<>();
+        private final Map<View,CalendarItem> attendanceBtnToEvent = new HashMap<>();
+        private final Map<View,CalendarItem> goingBtnToEvent = new HashMap<>();
+        private final Map<View,CalendarItem> notGoingBtnToEvent = new HashMap<>();
         private String teamId = "";
 
         @Override

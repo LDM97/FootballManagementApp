@@ -13,7 +13,7 @@
     import com.google.firebase.auth.FirebaseAuth;
     import com.google.firebase.auth.FirebaseUser;
 
-    public class NavDrawerHandler
+    class NavDrawerHandler
     {
 
         public void itemSelectHandler( MenuItem selectedItem, Context context )

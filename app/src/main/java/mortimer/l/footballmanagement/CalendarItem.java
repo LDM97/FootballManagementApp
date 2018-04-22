@@ -8,7 +8,7 @@
     import java.util.ArrayList;
     import java.util.List;
 
-    public class CalendarItem
+    class CalendarItem
     {
         // Event data that needs to be stored
         private String eventTitle;

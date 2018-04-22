@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/calendarItem">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/eventTitle"
@@ -30,8 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:id="@+id/leftContainer">
+            android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/notesTitle"
@@ -84,7 +82,6 @@
 
             <!-- time of event -->
             <TextView
-                android:id="@+id/timeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/default_margin"
@@ -106,7 +103,6 @@
 
             <!-- date of event -->
             <TextView
-                android:id="@+id/dateTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/default_margin"
@@ -128,7 +124,6 @@
 
             <!-- location of event -->
             <TextView
-                android:id="@+id/locationTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/default_margin"
@@ -155,7 +150,6 @@
 
     <!-- add seperator line between items -->
     <View
-        android:id="@+id/horizontalLine"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
         android:background="@color/colorPrimary"/>

@@ -6,10 +6,10 @@
 
     package mortimer.l.footballmanagement;
 
-    public class UserTeamPointer
+    class UserTeamPointer
     {
-        String userId;
-        String teamId;
+        private String userId;
+        private String teamId;
 
         UserTeamPointer()
         {

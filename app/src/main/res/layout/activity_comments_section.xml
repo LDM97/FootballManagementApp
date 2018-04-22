@@ -17,8 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/linLayout">
+            android:orientation="vertical">
 
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -75,7 +74,7 @@
                         android:id="@+id/addCommentBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/default_margin"
+                        android:layout_marginStart="@dimen/default_margin"
                         android:layout_marginBottom="@dimen/default_margin"
                         android:background="@drawable/rounded_corner"
                         android:padding="@dimen/rounded_corner_padding"

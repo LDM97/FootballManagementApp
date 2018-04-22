@@ -35,21 +35,21 @@
     public class DiscussionBoard extends AppCompatActivity implements View.OnClickListener
     {
         // Get string resources for pointers to database directories
-        String userTeamPointer;
-        String teamsPointer;
-        String postsPointer;
-        String playersPointer;
+        private String userTeamPointer;
+        private String teamsPointer;
+        private String postsPointer;
+        private String playersPointer;
 
         // Firebase authenticator and nav draw handlers
         private FirebaseAuth auth;
-        private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
+        private final NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
         private DrawerLayout navDraw;
 
         // Layout to dynamically display the posts
         private ViewGroup linearLayout;
 
         // Map the posts to the DiscussionItem object to identify the post when clicked
-        private Map<View,DiscussionItem> postItemToObj = new HashMap<>();
+        private final Map<View,DiscussionItem> postItemToObj = new HashMap<>();
 
         @Override
         protected void onCreate(Bundle savedInstanceState)

@@ -19,8 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/linLayout">
+            android:orientation="vertical">
 
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -49,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_margin="7dp"
             app:srcCompat="@drawable/add_icon"
             android:backgroundTint="@color/colorPrimary"

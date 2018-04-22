@@ -8,7 +8,7 @@
     import java.util.LinkedList;
     import java.util.List;
 
-    public class Team
+    class Team
     {
         // Team data to be stored
         private String teamId;
@@ -32,7 +32,7 @@
             this.typeFootball = typeFootball;
             this.teamBio = teamBio;
             this.players = players;
-            this.events = new LinkedList<CalendarItem>();
+            this.events = new LinkedList<>();
         }
 
         public List<DiscussionItem> getPosts()

@@ -4,7 +4,7 @@
 
     package mortimer.l.footballmanagement;
 
-    public class Comment
+    class Comment
     {
         // The data required to be stored
         private String comment;
