@@ -2,7 +2,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -12,14 +11,12 @@
         android:id="@+id/eventTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/default_margin"
         android:text="Training"
-        android:textSize="24sp"
-        android:textColor="#000000"
+        android:textSize="@dimen/title_text_size"
+        android:textColor="@color/primaryTextColor"
         android:layout_gravity="center_horizontal"/>
 
     <!-- Container event info -->
@@ -41,12 +38,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="@dimen/default_margin"
                     android:text="Notes"
                     android:gravity="center_horizontal"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="@dimen/sub_text_size"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_weight="0"/>
@@ -55,10 +51,10 @@
                     android:id="@+id/eventNotes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/default_margin"
                     android:text="Standard weekly training. Liam will bring cones so we can do proper drills!"
-                    android:textColor="#737373"
-                    android:textSize="18sp"
+                    android:textColor="@color/subTextColor"
+                    android:textSize="@dimen/sub_text_size"
                     app:layout_constraintTop_toBottomOf="@+id/notesTitle"
                     android:layout_weight="1"/>
 
@@ -68,14 +64,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
                 android:layout_weight="0"
                 android:background="@drawable/rounded_corner"
-                android:padding="10dp"
-                android:text="View Attendance" />
+                android:padding="@dimen/rounded_corner_padding"
+                android:text="@string/attendance_btn"
+                android:textSize="@dimen/sub_text_size"/>
 
 
         </LinearLayout>
@@ -92,78 +87,66 @@
                 android:id="@+id/timeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
                 android:text="Time"
-                android:textSize="18sp"
-                android:textColor="#000000"/>
+                android:textSize="@dimen/sub_text_size"
+                android:textColor="@color/primaryTextColor"/>
 
             <TextView
                 android:id="@+id/eventTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
                 android:text="18:00"
-                android:textSize="24sp"
-                android:textColor="#737373" />
+                android:textSize="@dimen/sub_text_size"
+                android:textColor="@color/subTextColor" />
 
             <!-- date of event -->
             <TextView
                 android:id="@+id/dateTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
                 android:text="Date"
-                android:textSize="18sp"
-                android:textColor="#000000"/>
+                android:textSize="@dimen/sub_text_size"
+                android:textColor="@color/primaryTextColor"/>
 
             <TextView
                 android:id="@+id/eventDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
                 android:text="20th February"
-                android:textSize="24sp"
-                android:textColor="#737373"/>
+                android:textSize="@dimen/sub_text_size"
+                android:textColor="@color/subTextColor"/>
 
             <!-- location of event -->
             <TextView
                 android:id="@+id/locationTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
                 android:text="Location"
-                android:textSize="18sp"
-                android:textColor="#000000"/>
+                android:textSize="@dimen/sub_text_size"
+                android:textColor="@color/primaryTextColor"/>
 
             <TextView
                 android:id="@+id/eventLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
                 android:text="Cochrane Park"
-                android:textSize="24sp"
-                android:textColor="#737373"/>
+                android:textSize="@dimen/sub_text_size"
+                android:textColor="@color/subTextColor"/>
 
         </LinearLayout>
 

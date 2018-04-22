@@ -23,9 +23,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/home_icon"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:background="@null"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/default_margin"/>
 
         <TextView
             android:id="@+id/toolbarTitle"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="@color/colorAccent"
-            android:textSize="24sp"
+            android:textSize="@dimen/title_text_size"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="176dp"
             tools:layout_editor_absoluteY="19dp" />

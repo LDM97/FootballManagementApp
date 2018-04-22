@@ -27,9 +27,9 @@
                 android:id="@+id/teamLogo"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginTop="60dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/actionbar_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
                 android:layout_marginBottom="5dp"
                 android:layout_gravity="center_horizontal"
                 app:srcCompat="@drawable/black_and_white_ball" />
@@ -41,8 +41,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:gravity="center"
-                android:textSize="30sp"
-                android:textColor="#000000"
+                android:textSize="@dimen/title_text_size"
+                android:textColor="@color/primaryTextColor"
                 android:ems="10"
                 android:inputType="none"
                 android:text="Team Name" />
@@ -100,71 +100,69 @@
                     android:orientation="vertical"
                     android:layout_weight="1">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="5dp"
-                    android:gravity="center"
-                    android:textSize="25sp"
-                    android:textColor="#000000"
-                    android:ems="10"
-                    android:inputType="none"
-                    android:text="Football Type" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center"
+                        android:textSize="@dimen/title_text_size"
+                        android:textColor="@color/primaryTextColor"
+                        android:ems="10"
+                        android:inputType="none"
+                        android:text="Football Type" />
 
-                <TextView
-                    android:id="@+id/typeOfFootball"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="5dp"
-                    android:gravity="center"
-                    android:textSize="15sp"
-                    android:textColor="#6c6b6b"
-                    android:ems="10"
-                    android:inputType="none"
-                    android:text="Type of Football" />
+                    <TextView
+                        android:id="@+id/typeOfFootball"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
+                        android:textSize="@dimen/sub_text_size"
+                        android:textColor="@color/subTextColor"
+                        android:ems="10"
+                        android:inputType="none"
+                        android:text="Type of Football" />
 
                 </LinearLayout>
 
-                <!-- add seperator line between the containers -->
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorPrimary"/>
+                    <!-- add seperator line between the containers -->
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/colorPrimary"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="0.5">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_weight="0.5">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="5dp"
-                    android:gravity="center"
-                    android:textSize="25sp"
-                    android:textColor="#000000"
-                    android:ems="10"
-                    android:inputType="none"
-                    android:text="Team Bio" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center"
+                        android:textSize="@dimen/title_text_size"
+                        android:textColor="@color/primaryTextColor"
+                        android:ems="10"
+                        android:inputType="none"
+                        android:text="Team Bio" />
 
-                <TextView
-                    android:id="@+id/teamBio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="5dp"
-                    android:gravity="center"
-                    android:textSize="15sp"
-                    android:textColor="#6c6b6b"
-                    android:ems="10"
-                    android:inputType="none"
-                    android:text="Team Bio" />
+                    <TextView
+                        android:id="@+id/teamBio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
+                        android:textSize="@dimen/sub_text_size"
+                        android:textColor="@color/subTextColor"
+                        android:ems="10"
+                        android:inputType="none"
+                        android:text="Team Bio" />
 
                 </LinearLayout>
 
@@ -174,37 +172,8 @@
 
     </LinearLayout>
 
-    <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:theme="@style/navDrawItems"
-        app:menu="@menu/drawer_view">
-
-        <!-- Footer for the nav bar, contains logout button. Keep logout separate from navigation items -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/navLogout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Logout"
-                android:textColor="@color/colorPrimaryDark" />
-
-        </LinearLayout>
-
-
-    </android.support.design.widget.NavigationView>
+    <!-- Container for contents of the navigation drawer -->
+    <include layout="@layout/nav_draw_layout" />
 
 
 </android.support.v4.widget.DrawerLayout>

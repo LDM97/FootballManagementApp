@@ -34,6 +34,11 @@
 
     public class DiscussionBoard extends AppCompatActivity implements View.OnClickListener
     {
+        // Get string resources for pointers to database directories
+        String userTeamPointer;
+        String teamsPointer;
+        String postsPointer;
+        String playersPointer;
 
         // Firebase authenticator and nav draw handlers
         private FirebaseAuth auth;
@@ -52,6 +57,12 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_discussion_board);
 
+            // Get string resources for pointers to database directories
+            teamsPointer = getString( R.string.teams_pointer );
+            postsPointer = getString( R.string.posts_pointer );
+            userTeamPointer = getString( R.string.user_pointers );
+            playersPointer = getString( R.string.players_pointer );
+
             // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
             setSupportActionBar( custToolBar );
@@ -60,7 +71,7 @@
             actionBar.setDisplayShowTitleEnabled( false );
 
             TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
-            actionBarTitle.setText( "Discussion Board" );
+            actionBarTitle.setText( getString( R.string.discussion_board_title ) );
 
             actionBar.setDisplayHomeAsUpEnabled( true );
             actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
@@ -110,10 +121,10 @@
                     final String userId = currentUser.getUid();
 
                     // Get the current team id
-                    UserTeamPointer pointer = snapshot.child("UserTeamPointers").child(userId).getValue(UserTeamPointer.class);
+                    UserTeamPointer pointer = snapshot.child( userTeamPointer ).child(userId).getValue(UserTeamPointer.class);
                     String teamId = pointer.getTeamId();
 
-                    for ( DataSnapshot postSnapshot : snapshot.child( "Teams" ).child( teamId ).child( "posts" ).getChildren() )
+                    for ( DataSnapshot postSnapshot : snapshot.child( teamsPointer ).child( teamId ).child( postsPointer ).getChildren() )
                     { // Loop through and display the posts
                         DiscussionItem post = postSnapshot.getValue( DiscussionItem.class );
 
@@ -130,9 +141,9 @@
                         text.setText( post.getDiscussionText() );
 
                         // Display the user who made the post
-                        UserTeamPointer postCreatorPointer = snapshot.child("UserTeamPointers").child( post.getUserId() ).getValue(UserTeamPointer.class);
+                        UserTeamPointer postCreatorPointer = snapshot.child( userTeamPointer ).child( post.getUserId() ).getValue(UserTeamPointer.class);
                         String postCreatorName = "";
-                        for( DataSnapshot userSnapshot : snapshot.child( "Teams" ).child( postCreatorPointer.getTeamId() ).child( "players" ).getChildren() )
+                        for( DataSnapshot userSnapshot : snapshot.child( teamsPointer ).child( postCreatorPointer.getTeamId() ).child( playersPointer ).getChildren() )
                         {
                             User userSnapObj = userSnapshot.getValue( User.class );
                             if( userSnapObj.getUserID().equals( postCreatorPointer.getUserId() ) )

@@ -26,11 +26,12 @@
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="@dimen/actionbar_margin"
                 android:isScrollContainer="true"
                 android:id="@+id/scrollView"
                 android:fillViewport="true">
 
+                <!-- Dynamically generate events in here if any -->
                 <LinearLayout
                     android:id="@+id/content_frame"
                     android:layout_width="match_parent"
@@ -43,12 +44,13 @@
 
         </LinearLayout>
 
+        <!-- Button to add a new event -->
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_margin="7dp"
             app:srcCompat="@drawable/add_icon"
             android:backgroundTint="@color/colorPrimary"
@@ -57,38 +59,8 @@
 
     </RelativeLayout>
 
-
-    <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:theme="@style/navDrawItems"
-        app:menu="@menu/drawer_view">
-
-        <!-- Footer for the nav bar, contains logout button. Keep logout separate from navigation items -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/navLogout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Logout"
-                android:textColor="@color/colorPrimaryDark" />
-
-        </LinearLayout>
-
-
-    </android.support.design.widget.NavigationView>
+    <!-- Container for contents of the navigation drawer -->
+    <include layout="@layout/nav_draw_layout" />
 
 
 </android.support.v4.widget.DrawerLayout>

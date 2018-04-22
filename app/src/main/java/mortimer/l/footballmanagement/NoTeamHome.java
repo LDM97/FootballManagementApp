@@ -26,6 +26,7 @@
 
     public class NoTeamHome extends AppCompatActivity implements View.OnClickListener
     {
+
         // Firebase authenticator and navigation draw handler setup
         private FirebaseAuth auth;
         private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
@@ -45,7 +46,7 @@
             actionBar.setDisplayShowTitleEnabled( false );
 
             TextView actionBarTitle = (TextView) findViewById(R.id.toolbarTitle);
-            actionBarTitle.setText( "Home" );
+            actionBarTitle.setText( getString( R.string.home_screen_title ) );
 
             actionBar.setDisplayHomeAsUpEnabled( true );
             actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );

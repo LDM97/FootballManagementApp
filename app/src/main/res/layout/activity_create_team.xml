@@ -8,6 +8,7 @@
 
     <include layout="@layout/action_bar" />
 
+    <!-- Display the user inputs required to create a team -->
     <TextView
         android:id="@+id/teamLogo"
         android:layout_width="wrap_content"
@@ -85,6 +86,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeFootballInput" />
 
+    <!-- Button to attempt to create a team with the inputted data -->
     <Button
         android:id="@+id/createTeamBtn"
         android:layout_width="wrap_content"
@@ -97,7 +99,7 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/rounded_corner"
         android:padding="10dp"
-        android:text="Create Team"
+        android:text="@string/create_team_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -41,6 +41,11 @@
 
     public class TeamSearchResults extends AppCompatActivity implements View.OnClickListener
     {
+        // Get string resources for pointers to database directories
+        String userTeamPointer;
+        String teamsPointer;
+        String userPointer;
+
         // Firebase authenticator and navigation draw handler
         private FirebaseAuth auth;
         private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
@@ -57,6 +62,10 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_team_search_results);
 
+            // Get string resources for pointers to database directories
+            teamsPointer = getString( R.string.teams_pointer );
+            userTeamPointer = getString( R.string.user_pointers );
+
             // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById(R.id.my_toolbar);
             setSupportActionBar(custToolBar);
@@ -65,7 +74,7 @@
             actionBar.setDisplayShowTitleEnabled(false);
 
             TextView actionBarTitle = (TextView) findViewById(R.id.toolbarTitle);
-            actionBarTitle.setText("Search Results");
+            actionBarTitle.setText( getString( R.string.team_search_results ) );
 
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.menu_icon);
@@ -91,7 +100,7 @@
 
             // Get teams that match the query input
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference teamsRef = database.getReference().child( "Teams" );
+            DatabaseReference teamsRef = database.getReference().child( teamsPointer );
 
             teamsRef.addListenerForSingleValueEvent(new ValueEventListener()
             {
@@ -268,21 +277,21 @@
                     @Override
                     public void onDataChange( DataSnapshot snapshot )
                     {
-                        Team selectedTeam = snapshot.child( "Teams" ).child( teamId ).getValue( Team.class );
-                        User currentUser = snapshot.child( "Users" ).child( userId ).getValue( User.class );
+                        Team selectedTeam = snapshot.child( teamsPointer ).child( teamId ).getValue( Team.class );
+                        User currentUser = snapshot.child( userPointer ).child( userId ).getValue( User.class );
 
                         // Add user to the team, set this team obj to be the new value for the team
                         selectedTeam.addPlayer( currentUser );
-                        DatabaseReference teamRef = database.getReference().child( "Teams" ).child( teamId );
+                        DatabaseReference teamRef = database.getReference().child( teamsPointer ).child( teamId );
                         teamRef.setValue( selectedTeam );
 
                         // Remove the user from the default users database as added to players list of a team
-                        DatabaseReference userRef = database.getReference().child( "Users" ).child( userId );
+                        DatabaseReference userRef = database.getReference().child( userPointer ).child( userId );
                         userRef.removeValue();
 
                         // Put pointer to team in User directory
                         UserTeamPointer pointer = new UserTeamPointer( currentUser.getUserID(), selectedTeam.getTeamId() );
-                        DatabaseReference pointerRef = database.getReference().child( "UserTeamPointers" ).child( userId );
+                        DatabaseReference pointerRef = database.getReference().child( userTeamPointer ).child( userId );
                         pointerRef.setValue( pointer );
 
                         // Notify user they have been added to this team

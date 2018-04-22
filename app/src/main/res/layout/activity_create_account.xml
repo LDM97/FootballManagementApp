@@ -9,12 +9,14 @@
 
     <include layout="@layout/action_bar" />
 
+    <!-- Container to display the user inputs -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_weight="1">
 
+        <!-- Profile photo and name container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,10 +49,11 @@
                 android:ems="10"
                 android:hint="Name"
                 android:inputType="text"
-                android:padding="10dp" />
+                android:padding="@dimen/rounded_corner_padding" />
 
         </LinearLayout>
 
+        <!-- Rest of info required displayed vertically down the screen -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,58 +64,58 @@
                 android:id="@+id/newAccEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
                 android:layout_gravity="center"
                 android:background="@drawable/rounded_corner"
                 android:ems="10"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
-                android:padding="10dp" />
+                android:padding="@dimen/rounded_corner_padding" />
 
             <EditText
                 android:id="@+id/newAccPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
                 android:layout_gravity="center"
                 android:background="@drawable/rounded_corner"
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:padding="10dp" />
+                android:padding="@dimen/rounded_corner_padding" />
 
             <EditText
                 android:id="@+id/newAccPrefPositions"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
                 android:layout_gravity="center"
                 android:background="@drawable/rounded_corner"
                 android:ems="10"
                 android:hint="Positions E.G: ST, GK"
                 android:inputType="text"
-                android:padding="10dp" />
+                android:padding="@dimen/rounded_corner_padding" />
 
             <EditText
                 android:id="@+id/newAccBio"
                 android:layout_width="wrap_content"
                 android:layout_height="70dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
                 android:layout_gravity="center"
                 android:background="@drawable/rounded_corner"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="Bio"
                 android:inputType="textMultiLine"
-                android:padding="10dp"
+                android:padding="@dimen/rounded_corner_padding"
                 android:singleLine="false"
                 android:maxLines="4"/>
 
@@ -120,19 +123,15 @@
 
     </LinearLayout>
 
+    <!-- Button to attempt to create the account with the entered info -->
     <Button
         android:id="@+id/createNewAccBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_margin="@dimen/default_margin"
         android:background="@drawable/rounded_corner"
         android:padding="10dp"
-        android:text="Create Account"
+        android:text="@string/create_account_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

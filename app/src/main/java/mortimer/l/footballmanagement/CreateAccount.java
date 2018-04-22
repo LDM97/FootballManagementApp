@@ -33,6 +33,9 @@
         // Setup the id for the type of account to be created, used by Firebase
         private static final String TAG = "EmailPassword";
 
+        // Get string resources for pointers to database directories
+        String userPointer;
+
         // Get the inputs for the new account data
         private EditText emailInput;
         private EditText passwordInput;
@@ -49,12 +52,14 @@
             super.onCreate( savedInstanceState );
             setContentView( R.layout.activity_create_account );
 
+            userPointer = getString( R.string.user_pointers );
+
             // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
             setSupportActionBar( custToolBar );
             getSupportActionBar().setDisplayShowTitleEnabled( false );
             TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
-            actionBarTitle.setText( "Create Profile" );
+            actionBarTitle.setText( getString( R.string.create_account_title ) );
 
             // Get the user input views
             emailInput = findViewById( R.id.newAccEmail );
@@ -140,7 +145,7 @@
             User newUser = new User( uid, newName, newEmail, newPositions, newBio );
 
             // Get database reference and write the data of the new user to the database
-            DatabaseReference dbRef = database.getReference().child( "Users" ).child( uid );
+            DatabaseReference dbRef = database.getReference().child( userPointer ).child( uid );
             dbRef.setValue( newUser );
         }
 

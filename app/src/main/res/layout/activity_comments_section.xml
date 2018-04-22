@@ -2,8 +2,6 @@
 <!-- Use DrawerLayout as root container for activity -->
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,29 +23,32 @@
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="@dimen/actionbar_margin"
                 android:isScrollContainer="true"
                 android:id="@+id/scrollView"
                 android:fillViewport="true">
 
+                <!-- Layout to contain the screen contents within the scroll view -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/postContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                </LinearLayout>
+                    <!-- Container for the post to be dynamically displayed -->
+                    <LinearLayout
+                        android:id="@+id/postContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/commentsContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                </LinearLayout>
+                    <!-- Container for the comments (if any) to be displayed -->
+                    <LinearLayout
+                        android:id="@+id/commentsContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    </LinearLayout>
 
                     <!-- add seperator line between the containers -->
                     <View
@@ -55,29 +56,30 @@
                         android:layout_height="2dp"
                         android:background="@color/colorPrimary"/>
 
-                <EditText
-                    android:id="@+id/addComment"
-                    android:layout_width="match_parent"
-                    android:layout_height="115dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/rounded_corner"
-                    android:ems="10"
-                    android:gravity="center"
-                    android:hint="Add a comment..."
-                    android:inputType="textMultiLine"
-                    android:maxLines="5"
-                    android:padding="10dp"
-                    android:singleLine="false" />
+                    <!-- User can add a comment if they choose -->
+                    <EditText
+                        android:id="@+id/addComment"
+                        android:layout_width="match_parent"
+                        android:layout_height="115dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/rounded_corner"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="Add a comment..."
+                        android:inputType="textMultiLine"
+                        android:maxLines="5"
+                        android:padding="@dimen/rounded_corner_padding"
+                        android:singleLine="false" />
 
-                <Button
-                    android:id="@+id/addCommentBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/rounded_corner"
-                    android:padding="10dp"
-                    android:text="Add Comment" />
+                    <Button
+                        android:id="@+id/addCommentBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/default_margin"
+                        android:layout_marginBottom="@dimen/default_margin"
+                        android:background="@drawable/rounded_corner"
+                        android:padding="@dimen/rounded_corner_padding"
+                        android:text="@string/add_comment_btn" />
 
                 </LinearLayout>
 
@@ -87,40 +89,8 @@
 
     </RelativeLayout>
 
-
-
-
-    <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:theme="@style/navDrawItems"
-        app:menu="@menu/drawer_view">
-
-        <!-- Footer for the nav bar, contains logout button. Keep logout separate from navigation items -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/navLogout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Logout"
-                android:textColor="@color/colorPrimaryDark" />
-
-        </LinearLayout>
-
-
-    </android.support.design.widget.NavigationView>
+    <!-- Container for contents of the navigation drawer -->
+    <include layout="@layout/nav_draw_layout" />
 
 
 </android.support.v4.widget.DrawerLayout>

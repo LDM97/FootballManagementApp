@@ -30,6 +30,10 @@
 
     public class CreateTeam extends AppCompatActivity implements View.OnClickListener
     {
+        // Get string resources for pointers to database directories
+        String userTeamPointer;
+        String teamsPointer;
+        String userPointer;
 
         // Team info inputs
         private EditText teamNameInput;
@@ -45,6 +49,10 @@
             super.onCreate( savedInstanceState );
             setContentView( R.layout.activity_create_team );
 
+            // Get string resources for pointers to database directories
+            teamsPointer = getString( R.string.teams_pointer );
+            userTeamPointer = getString( R.string.user_pointers );
+
             // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
             setSupportActionBar( custToolBar );
@@ -53,7 +61,7 @@
             actionBar.setDisplayShowTitleEnabled( false );
 
             TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
-            actionBarTitle.setText( "Create Team" );
+            actionBarTitle.setText( getString( R.string.create_team_title ) );
 
             actionBar.setDisplayHomeAsUpEnabled( true );
             actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
@@ -94,7 +102,7 @@
 
             // Get a reference to our current user
             FirebaseDatabase database =  FirebaseDatabase.getInstance();
-            DatabaseReference currentUserRef = database.getReference().child( "Users" ).child( uid );
+            DatabaseReference currentUserRef = database.getReference().child( userPointer ).child( uid );
 
             currentUserRef.addListenerForSingleValueEvent( new ValueEventListener()
             {
@@ -120,16 +128,16 @@
                     // Child( "Users" ) get location of users relative to the database,
                     String id = snapshot.getKey();
                     Team newTeam = new Team( id, teamName, typeFootball, teamBio, players );
-                    DatabaseReference dbRef = database.getReference().child( "Teams" ).child( id );
+                    DatabaseReference dbRef = database.getReference().child( teamsPointer ).child( id );
                     dbRef.setValue( newTeam );
 
                     // Delete the user from the list of users w no team as user now stored in team
-                    DatabaseReference userRef = database.getReference().child( "Users" ).child( currentUserObj.getUserID() );
+                    DatabaseReference userRef = database.getReference().child( userPointer ).child( currentUserObj.getUserID() );
                     userRef.removeValue();
 
                     // Put pointer to team in User directory
                     UserTeamPointer pointer = new UserTeamPointer( currentUserObj.getUserID(), newTeam.getTeamId() );
-                    DatabaseReference pointerRef = database.getReference().child( "UserTeamPointers" ).child( currentUserObj.getUserID() );
+                    DatabaseReference pointerRef = database.getReference().child( userTeamPointer ).child( currentUserObj.getUserID() );
                     pointerRef.setValue( pointer );
 
 

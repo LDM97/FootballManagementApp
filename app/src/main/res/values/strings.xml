@@ -5,4 +5,35 @@
     <string name="title_activity_add_event">AddEvent</string>
     <string name="title_activity_create_discussion">CreateDiscussion</string>
     <string name="title_activity_comments_section">CommentsSection</string>
+
+    <!-- Button Strings -->
+    <string name="create_event_btn">Create Event</string>
+    <string name="add_comment_btn">Add Comment</string>
+    <string name="create_account_btn">Create Account</string>
+    <string name="create_discussion_btn">Create Post</string>
+    <string name="create_team_btn">Create Team</string>
+    <string name="create_a_team_nav_btn">Create A Team</string>
+    <string name="login_btn">Login</string>
+    <string name="going_btn">Going</string>
+    <string name="not_going_btn">Not Going</string>
+    <string name="attendance_btn">View Attendance</string>
+
+    <!-- Screen Title Strings -->
+    <string name="create_event_title">Create Event</string>
+    <string name="discussion_board_title">Discussion Board</string>
+    <string name="create_account_title">Create Profile</string>
+    <string name="create_post_title">Create Post</string>
+    <string name="create_team_title">Create Team</string>
+    <string name="home_screen_title">Home</string>
+    <string name="team_calendar_title">Team Calendar</string>
+    <string name="team_info_title">Team Info</string>
+    <string name="team_search_results">Search Results</string>
+
+    <!-- Firebase database directories -->
+    <string name="user_pointers">UserTeamPointers</string>
+    <string name="teams_pointer">Teams</string>
+    <string name="events_pointer">events</string>
+    <string name="posts_pointer">posts</string>
+    <string name="players_pointer">players</string>
+    <string name="comments_pointer">comments</string>
 </resources>

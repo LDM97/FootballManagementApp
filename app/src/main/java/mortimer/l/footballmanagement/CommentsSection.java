@@ -41,6 +41,13 @@
     public class CommentsSection extends AppCompatActivity implements View.OnClickListener
     {
 
+        // Get string resources for pointers to database directories
+        String userTeamPointer;
+        String teamsPointer;
+        String postsPointer;
+        String commentsPointer;
+        String playersPointer;
+
         // Firebase authenticator and navigation drawer items
         private FirebaseAuth auth;
         private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
@@ -60,6 +67,14 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_comments_section);
 
+            // Get string resources for pointers to database directories
+            teamsPointer = getString( R.string.teams_pointer );
+            postsPointer = getString( R.string.posts_pointer );
+            userTeamPointer = getString( R.string.user_pointers );
+            commentsPointer = getString( R.string.comments_pointer );
+            playersPointer = getString( R.string.players_pointer );
+
+
             // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
             setSupportActionBar( custToolBar );
@@ -68,7 +83,7 @@
             actionBar.setDisplayShowTitleEnabled( false );
 
             TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
-            actionBarTitle.setText( "Discussion Board" );
+            actionBarTitle.setText( getString( R.string.discussion_board_title ) );
 
             actionBar.setDisplayHomeAsUpEnabled( true );
             actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
@@ -127,13 +142,13 @@
                     final String userId = currentUser.getUid();
 
                     // Get the current team id
-                    UserTeamPointer pointer = snapshot.child("UserTeamPointers").child(userId).getValue(UserTeamPointer.class);
+                    UserTeamPointer pointer = snapshot.child( userTeamPointer ).child(userId).getValue(UserTeamPointer.class);
                     String teamId = pointer.getTeamId();
 
                     // Get selected post
                     DiscussionItem selectedPost = null;
 
-                    for ( DataSnapshot postSnapshot : snapshot.child( "Teams" ).child(teamId).child( "posts" ).getChildren() )
+                    for ( DataSnapshot postSnapshot : snapshot.child( teamsPointer ).child(teamId).child( postsPointer ).getChildren() )
                     { // Loop through and find the selected post
                         DiscussionItem post = postSnapshot.getValue(DiscussionItem.class);
 
@@ -157,9 +172,9 @@
                     text.setText( selectedPost.getDiscussionText() );
 
                     // Display the user who made the post
-                    UserTeamPointer postCreatorPointer = snapshot.child( "UserTeamPointers" ).child( selectedPost.getUserId() ).getValue( UserTeamPointer.class );
+                    UserTeamPointer postCreatorPointer = snapshot.child( userTeamPointer ).child( selectedPost.getUserId() ).getValue( UserTeamPointer.class );
                     String postCreatorName = "";
-                    for ( DataSnapshot userSnapshot : snapshot.child("Teams").child(postCreatorPointer.getTeamId()).child("players").getChildren() )
+                    for ( DataSnapshot userSnapshot : snapshot.child( teamsPointer ).child(postCreatorPointer.getTeamId()).child( playersPointer ).getChildren() )
                     { // Loop through the players and find the post creator
                         User userSnapObj = userSnapshot.getValue( User.class );
                         if ( userSnapObj.getUserID().equals(postCreatorPointer.getUserId() ) )
@@ -221,7 +236,7 @@
 
                             // Get the commenter and set their name
                             String commenterNameString = "";
-                            for( DataSnapshot player : snapshot.child("Teams").child(teamId).child("players").getChildren() )
+                            for( DataSnapshot player : snapshot.child( teamsPointer ).child(teamId).child( playersPointer ).getChildren() )
                             { // Loop through users of this team
                                 User playerObj = player.getValue( User.class );
                                 if( playerObj.getUserID().equals( comment.getUserId() ) )
@@ -316,16 +331,17 @@
                         @Override
                         public void onDataChange( DataSnapshot snapshot )
                         {
+
                             // Get user id, used to locate the team this user plays for
                             FirebaseUser currentUser = auth.getCurrentUser();
                             final String userId = currentUser.getUid();
 
                             // Get the current team id
-                            UserTeamPointer pointer = snapshot.child("UserTeamPointers").child(userId).getValue(UserTeamPointer.class);
+                            UserTeamPointer pointer = snapshot.child( userTeamPointer ).child(userId).getValue(UserTeamPointer.class);
                             String teamId = pointer.getTeamId();
 
                             String postKey = "";
-                            for ( DataSnapshot postSnapshot : snapshot.child( "Teams" ).child( teamId ).child( "posts" ).getChildren() )
+                            for ( DataSnapshot postSnapshot : snapshot.child( teamsPointer ).child( teamId ).child( postsPointer ).getChildren() )
                             { // Loop through and find the selected post
                                 DiscussionItem post = postSnapshot.getValue( DiscussionItem.class );
 
@@ -341,10 +357,10 @@
                             // Add the updated new post to the list and write to the database
                             List<Comment> newComments = new LinkedList<>();
 
-                            if( snapshot.child( "Teams" ).child( teamId ).child( "posts" ).child( postKey ).child( "comments" ).hasChildren() )
+                            if( snapshot.child( teamsPointer ).child( teamId ).child( postsPointer ).child( postKey ).child( commentsPointer ).hasChildren() )
                             {
                                 // Already existing comments, add new comment to the end of this list
-                                for ( DataSnapshot comment : snapshot.child("Teams").child(teamId).child("posts").child(postKey).child("comments").getChildren() ) {
+                                for ( DataSnapshot comment : snapshot.child( teamsPointer ).child(teamId).child( postsPointer ).child(postKey).child( commentsPointer ).getChildren() ) {
                                     Comment currentCommentObj = comment.getValue(Comment.class);
                                     newComments.add(currentCommentObj);
                                 }
@@ -352,7 +368,7 @@
 
                             // Add the new comment and write to the database
                             newComments.add( commentObj );
-                            snapshot.child( "Teams" ).child( teamId ).child( "posts" ).child( postKey ).child( "comments" ).getRef().setValue( newComments );
+                            snapshot.child( teamsPointer ).child( teamId ).child( postsPointer ).child( postKey ).child( commentsPointer ).getRef().setValue( newComments );
 
                             // Refresh the screen to display the new comment
                             finish();

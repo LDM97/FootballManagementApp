@@ -6,6 +6,7 @@
     package mortimer.l.footballmanagement;
 
     // Android imports
+    import android.annotation.SuppressLint;
     import android.content.Intent;
     import android.os.Bundle;
     import android.support.design.widget.NavigationView;
@@ -36,6 +37,11 @@
     public class AddEvent extends AppCompatActivity implements View.OnClickListener
     {
 
+        // Get string resources for pointers to database directories
+        String userTeamPointer;
+        String teamsPointer;
+        String eventsPointer;
+
         // Inputs
         private EditText eventTitleInput;
         private EditText timeInput;
@@ -53,6 +59,11 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_add_event);
 
+            // Get string resources for pointers to database directories
+            teamsPointer = getString( R.string.teams_pointer );
+            eventsPointer = getString( R.string.events_pointer );
+            userTeamPointer = getString( R.string.user_pointers );
+
             // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
             setSupportActionBar( custToolBar );
@@ -61,7 +72,7 @@
             actionBar.setDisplayShowTitleEnabled( false );
 
             TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
-            actionBarTitle.setText( "Create Event" );
+            actionBarTitle.setText( getString( R.string.create_event_title ) );
 
             actionBar.setDisplayHomeAsUpEnabled( true );
             actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
@@ -137,11 +148,11 @@
                         String userId = currentUser.getUid();
 
                         // Get the current team id
-                        UserTeamPointer pointer = snapshot.child( "UserTeamPointers" ).child( userId ).getValue( UserTeamPointer.class );
+                        UserTeamPointer pointer = snapshot.child( userTeamPointer ).child( userId ).getValue( UserTeamPointer.class );
                         String teamId = pointer.getTeamId();
 
                         // Get the team the user is part of and add the event to the team
-                        Team team = snapshot.child( "Teams" ).child( teamId ).getValue( Team.class );
+                        Team team = snapshot.child( teamsPointer ).child( teamId ).getValue( Team.class );
                         CalendarItem event = new CalendarItem( eventTitle, time, date, location, notes );
 
                         // If teams first event (no existing events) create a new linked list, else get the existing list and add to it
@@ -150,7 +161,7 @@
 
                         // Get DB instance and reference to the team's events list in the database
                         FirebaseDatabase database =  FirebaseDatabase.getInstance();
-                        DatabaseReference eventsRef = database.getReference().child( "Teams" ).child( teamId ).child( "events" );
+                        DatabaseReference eventsRef = database.getReference().child( teamsPointer ).child( teamId ).child( eventsPointer );
 
                         // Update the events list w the list that has the new event added to it
                         eventsRef.setValue( events );

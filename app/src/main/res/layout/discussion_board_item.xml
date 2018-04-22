@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,7 +13,7 @@
 
         <ImageView
             android:id="@+id/playerProfileImage"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="@dimen/default_margin"
             android:layout_width="30dp"
             android:layout_height="50dp"
             android:adjustViewBounds="true"
@@ -27,8 +28,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="5dp"
             android:gravity="center"
-            android:textSize="25sp"
-            android:textColor="#000000"
+            android:textSize="@dimen/title_text_size"
+            android:textColor="@color/primaryTextColor"
             android:ems="10"
             android:inputType="none"
             android:text="Discussion Title"
@@ -40,11 +41,11 @@
             android:id="@+id/discussionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginLeft="10dp"
-            android:gravity="left"
-            android:textSize="20sp"
-            android:textColor="#000000"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/default_margin"
+            android:gravity="start"
+            android:textSize="@dimen/sub_text_size"
+            android:textColor="@color/primaryTextColor"
             android:ems="10"
             android:inputType="none"
             android:text="text for the actual discussion post" />
@@ -59,22 +60,22 @@
                 android:id="@+id/postedBy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:ems="10"
-                android:gravity="left"
+                android:gravity="start"
                 android:inputType="none"
                 android:text="Post By: X"
-                android:textColor="#6c6b6b"
-                android:textSize="15sp" />
+                android:textColor="@color/subTextColor"
+                android:textSize="@dimen/sub_text_size" />
 
             <TextView
                 android:id="@+id/viewComments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:gravity="right"
-                android:textSize="15sp"
-                android:textColor="#6c6b6b"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:textSize="@dimen/sub_text_size"
+                android:textColor="@color/subTextColor"
                 android:ems="10"
                 android:inputType="none"
                 android:text="View Comments" />

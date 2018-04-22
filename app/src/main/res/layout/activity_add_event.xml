@@ -3,7 +3,6 @@
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,126 +16,98 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- Display the text input fields for the new event -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="@dimen/actionbar_margin"
             android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent">
-
 
             <EditText
                 android:id="@+id/eventTitleInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
                 android:background="@drawable/rounded_corner"
                 android:ems="10"
                 android:hint="Event Title"
                 android:inputType="text"
-                android:padding="10dp" />
+                android:padding="@dimen/rounded_corner_padding" />
 
             <EditText
                 android:id="@+id/eventTimeInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
                 android:background="@drawable/rounded_corner"
                 android:ems="10"
                 android:hint="Time"
                 android:inputType="time"
-                android:padding="10dp" />
+                android:padding="@dimen/rounded_corner_padding" />
 
             <EditText
                 android:id="@+id/eventDateInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
                 android:background="@drawable/rounded_corner"
                 android:ems="10"
                 android:hint="Date"
                 android:inputType="date"
-                android:padding="10dp" />
+                android:padding="@dimen/rounded_corner_padding" />
 
             <EditText
                 android:id="@+id/eventLocationInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
                 android:background="@drawable/rounded_corner"
                 android:ems="10"
                 android:hint="Location"
                 android:inputType="text"
-                android:padding="10dp" />
+                android:padding="@dimen/rounded_corner_padding" />
 
             <EditText
                 android:id="@+id/eventNotesInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
                 android:background="@drawable/rounded_corner"
                 android:ems="10"
                 android:hint="Notes"
                 android:inputType="textMultiLine"
                 android:lines="3"
-                android:padding="10dp" />
+                android:padding="@dimen/rounded_corner_padding" />
         </LinearLayout>
 
+        <!-- Button to input the data and attempt to create the event -->
         <Button
             android:id="@+id/createEventBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="Create Event"
+            android:layout_margin="@dimen/rounded_corner_padding"
+            android:text="@string/create_event_btn"
             android:background="@drawable/rounded_corner"
-            android:padding="10dp"
+            android:padding="@dimen/rounded_corner_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
-    <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:theme="@style/navDrawItems"
-        app:menu="@menu/drawer_view">
-
-        <!-- Footer for the nav bar, contains logout button. Keep logout separate from navigation items -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/navLogout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Logout"
-                android:textColor="@color/colorPrimaryDark" />
-
-        </LinearLayout>
-
-
-    </android.support.design.widget.NavigationView>
+    <!-- Container for contents of the navigation drawer -->
+    <include layout="@layout/nav_draw_layout" />
 
 
 </android.support.v4.widget.DrawerLayout>

@@ -51,6 +51,11 @@
 
     public class TeamCalendar extends AppCompatActivity implements View.OnClickListener
     {
+        // Get string resources for pointers to database directories
+        String userTeamPointer;
+        String teamsPointer;
+        String playersPointer;
+        String eventsPointer;
 
         private FirebaseAuth auth;
         private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
@@ -69,6 +74,12 @@
             super.onCreate( savedInstanceState );
             setContentView( R.layout.activity_team_calendar );
 
+            // Get string resources for pointers to database directories
+            teamsPointer = getString( R.string.teams_pointer );
+            eventsPointer = getString( R.string.events_pointer );
+            userTeamPointer = getString( R.string.user_pointers );
+            playersPointer = getString( R.string.players_pointer );
+
             // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
             setSupportActionBar( custToolBar );
@@ -77,7 +88,7 @@
             actionBar.setDisplayShowTitleEnabled( false );
 
             TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
-            actionBarTitle.setText( "Team Calendar" );
+            actionBarTitle.setText( getString( R.string.team_calendar_title ) );
 
             actionBar.setDisplayHomeAsUpEnabled( true );
             actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
@@ -137,10 +148,10 @@
                     final String userId = currentUser.getUid();
 
                     // Get the current team id
-                    UserTeamPointer pointer = snapshot.child( "UserTeamPointers" ).child( userId ).getValue( UserTeamPointer.class );
+                    UserTeamPointer pointer = snapshot.child( userTeamPointer ).child( userId ).getValue( UserTeamPointer.class );
                     String teamId = pointer.getTeamId();
 
-                    for( DataSnapshot userSnapshot : snapshot.child( "Teams" ).child( teamId ).child( "players" ).getChildren() )
+                    for( DataSnapshot userSnapshot : snapshot.child( teamsPointer ).child( teamId ).child( playersPointer ).getChildren() )
                     { // Get the current user and check if they are an organiser
                         User user = userSnapshot.getValue( User.class );
 
@@ -163,7 +174,7 @@
                     Date currentDate = new Date();
                     SimpleDateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy" );
 
-                    for( DataSnapshot eventSnapshot : snapshot.child( "Teams" ).child( teamId ).child( "events" ).getChildren() )
+                    for( DataSnapshot eventSnapshot : snapshot.child( teamsPointer ).child( teamId ).child( eventsPointer ).getChildren() )
                     {
                         // Get the calendar items from the snapshot
                         CalendarItem event = eventSnapshot.getValue(CalendarItem.class);
@@ -327,7 +338,7 @@
                     public void onDataChange( DataSnapshot snapshot )
                     {
                         // Get team ref for overwrite
-                        Team team = snapshot.child( "Teams" ).child( teamId ).getValue( Team.class );
+                        Team team = snapshot.child( teamsPointer ).child( teamId ).getValue( Team.class );
 
                         List<CalendarItem> events = ( team.getEvents() == null ) ? new ArrayList<CalendarItem>() : team.getEvents();
                         String userId = auth.getUid();
@@ -363,7 +374,7 @@
 
                         // Get DB instance and reference to the team's events list in the database
                         FirebaseDatabase database =  FirebaseDatabase.getInstance();
-                        DatabaseReference teamRef = database.getReference().child( "Teams" ).child( teamId ).child( "events" );
+                        DatabaseReference teamRef = database.getReference().child( teamsPointer ).child( teamId ).child( eventsPointer );
 
                         // Update the events list w the list that has the new event added to it
                         teamRef.setValue( events );
@@ -437,11 +448,11 @@
                         final String userId = currentUser.getUid();
 
                         // Get the current team id
-                        UserTeamPointer pointer = snapshot.child("UserTeamPointers").child(userId).getValue(UserTeamPointer.class);
+                        UserTeamPointer pointer = snapshot.child( userTeamPointer ).child(userId).getValue(UserTeamPointer.class);
                         teamId = pointer.getTeamId();
 
 
-                        for (DataSnapshot userSnapshot : snapshot.child( "Teams" ).child( teamId ).child( "players" ).getChildren() )
+                        for (DataSnapshot userSnapshot : snapshot.child( teamsPointer ).child( teamId ).child( playersPointer ).getChildren() )
                         {
 
                             User player = userSnapshot.getValue(User.class);

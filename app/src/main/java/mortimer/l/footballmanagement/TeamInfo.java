@@ -30,6 +30,10 @@
 
     public class TeamInfo extends AppCompatActivity implements View.OnClickListener
     {
+        // Get string resources for pointers to database directories
+        String userTeamPointer;
+        String teamsPointer;
+        String playersPointer;
 
         private FirebaseAuth auth;
         private NavDrawerHandler navDrawerHandler= new NavDrawerHandler();
@@ -42,6 +46,11 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_team_info);
 
+            // Get string resources for pointers to database directories
+            teamsPointer = getString( R.string.teams_pointer );
+            userTeamPointer = getString( R.string.user_pointers );
+            playersPointer = getString( R.string.players_pointer );
+
             // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
             setSupportActionBar( custToolBar );
@@ -50,7 +59,7 @@
             actionBar.setDisplayShowTitleEnabled( false );
 
             TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
-            actionBarTitle.setText( "Team Info" );
+            actionBarTitle.setText( getString( R.string.team_info_title ) );
 
             actionBar.setDisplayHomeAsUpEnabled( true );
             actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
@@ -98,9 +107,9 @@
                     String userId = currentUser.getUid();
 
                     // Get the current team id and team object
-                    UserTeamPointer pointer = snapshot.child("UserTeamPointers").child(userId).getValue(UserTeamPointer.class);
+                    UserTeamPointer pointer = snapshot.child( userTeamPointer ).child(userId).getValue(UserTeamPointer.class);
                     String teamId = pointer.getTeamId();
-                    Team team = snapshot.child("Teams").child(teamId).getValue(Team.class);
+                    Team team = snapshot.child( teamsPointer ).child(teamId).getValue(Team.class);
 
                     // Set the team name
                     TextView teamNameText = findViewById(R.id.teamName);
@@ -116,7 +125,7 @@
 
 
                     // Dynamically list the players in the team
-                    for (DataSnapshot eventSnapshot : snapshot.child( "Teams" ).child( teamId ).child( "players" ).getChildren() )
+                    for (DataSnapshot eventSnapshot : snapshot.child( teamsPointer ).child( teamId ).child( playersPointer ).getChildren() )
                     {
                         User player = eventSnapshot.getValue(User.class);
 

@@ -34,6 +34,14 @@
     public class CreateDiscussion extends AppCompatActivity implements View.OnClickListener
     {
 
+        // Get string resources for pointers to database directories
+        String userTeamPointer;
+        String teamsPointer;
+        String postsPointer;
+        String commentsPointer;
+        String playersPointer;
+        String eventsPointer;
+
         // Post data inputs
         private EditText postTitleInput;
         private EditText postTextInput;
@@ -49,6 +57,14 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_create_discussion);
 
+            // Get string resources for pointers to database directories
+            teamsPointer = getString( R.string.teams_pointer );
+            postsPointer = getString( R.string.posts_pointer );
+            eventsPointer = getString( R.string.events_pointer );
+            userTeamPointer = getString( R.string.user_pointers );
+            commentsPointer = getString( R.string.comments_pointer );
+            playersPointer = getString( R.string.players_pointer );
+
             // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
             setSupportActionBar( custToolBar );
@@ -57,7 +73,7 @@
             actionBar.setDisplayShowTitleEnabled( false );
 
             TextView actionBarTitle = (TextView) findViewById( R.id.toolbarTitle );
-            actionBarTitle.setText( "Create Post" );
+            actionBarTitle.setText( getString( R.string.create_post_title ) );
 
             actionBar.setDisplayHomeAsUpEnabled( true );
             actionBar.setHomeAsUpIndicator( R.drawable.menu_icon );
@@ -118,11 +134,11 @@
                     String userId = currentUser.getUid();
 
                     // Get the current team id
-                    UserTeamPointer pointer = snapshot.child("UserTeamPointers").child(userId).getValue(UserTeamPointer.class);
+                    UserTeamPointer pointer = snapshot.child( userTeamPointer ).child(userId).getValue(UserTeamPointer.class);
                     String teamId = pointer.getTeamId();
 
                     // Get the current team obj and create a new post obj
-                    Team team = snapshot.child( "Teams" ).child( teamId ).getValue( Team.class );
+                    Team team = snapshot.child( teamsPointer ).child( teamId ).getValue( Team.class );
                     DiscussionItem post = new DiscussionItem( postTitle, postText, userId );
 
                     // Add the new post to the posts for this team, then get that post for writing to the database
@@ -130,7 +146,7 @@
                     List<DiscussionItem> newPosts = team.getPosts();
 
                     // Update the posts in the database
-                    DatabaseReference postsRef = snapshot.child( "Teams" ).child( teamId ).child( "posts" ).getRef();
+                    DatabaseReference postsRef = snapshot.child( teamsPointer ).child( teamId ).child( postsPointer ).getRef();
                     postsRef.setValue( newPosts );
 
                     // Notify user the post has been created
