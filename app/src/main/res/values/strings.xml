@@ -16,6 +16,8 @@
     <string name="going_btn">Going</string>
     <string name="not_going_btn">Not Going</string>
     <string name="attendance_btn">View Attendance</string>
+    <string name="make_organiser_btn">Make Organiser</string>
+    <string name="kick_player_btn">Remove</string>
 
     <!-- Screen Title Strings -->
     <string name="create_event_title">Create Event</string>
@@ -36,4 +38,5 @@
     <string name="posts_pointer">posts</string>
     <string name="players_pointer">players</string>
     <string name="comments_pointer">comments</string>
+    <string name="no_team_users_pointer">Users</string>
 </resources>

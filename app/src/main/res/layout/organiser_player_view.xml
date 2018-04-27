@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_corner"
+    android:padding="@dimen/rounded_corner_padding"
+    android:layout_margin="@dimen/default_margin">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/playerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/title_text_size"
+            android:textColor="@color/primaryTextColor"
+            android:ems="10"
+            android:inputType="none"
+            android:text="Player Name"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/closePopup"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_gravity="end"
+            android:src="@drawable/close_icon"
+            android:backgroundTint="@color/colorAccent"
+            android:background="@drawable/rounded_corner"
+            android:layout_weight="0"/>
+
+    </LinearLayout>
+
+    <TextView
+    android:id="@+id/playerPositions"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:gravity="center"
+    android:layout_gravity="center_horizontal"
+    android:textSize="@dimen/sub_text_size"
+    android:textColor="@color/subTextColor"
+    android:ems="10"
+    android:inputType="none"
+    android:text="Player positions"/>
+
+    <TextView
+        android:id="@+id/playerBio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="start"
+        android:layout_gravity="center_horizontal"
+        android:textSize="@dimen/sub_text_size"
+        android:textColor="@color/subTextColor"
+        android:ems="10"
+        android:inputType="none"
+        android:text="Player bio"/>
+
+    <!-- Set action buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/makeOrganiserBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/make_organiser_btn"
+            android:layout_gravity="start"
+            android:background="@drawable/rounded_corner"
+            android:padding="@dimen/rounded_corner_padding"
+            android:layout_weight="0"/>
+
+        <!-- Separator to space out the buttons -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/kickPlayerBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/kick_player_btn"
+            android:layout_gravity="end"
+            android:background="@drawable/rounded_corner"
+            android:padding="@dimen/rounded_corner_padding"
+            android:layout_weight="0"/>
+
+    </LinearLayout>
+
+</LinearLayout>

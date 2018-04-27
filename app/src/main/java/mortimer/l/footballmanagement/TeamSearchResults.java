@@ -65,6 +65,7 @@
             // Get string resources for pointers to database directories
             teamsPointer = getString( R.string.teams_pointer );
             userTeamPointer = getString( R.string.user_pointers );
+            userPointer = getString( R.string.no_team_users_pointer );
 
             // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById(R.id.my_toolbar);

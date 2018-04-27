@@ -52,7 +52,7 @@
             super.onCreate( savedInstanceState );
             setContentView( R.layout.activity_create_account );
 
-            userPointer = getString( R.string.user_pointers );
+            userPointer = getString( R.string.no_team_users_pointer );
 
             // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
