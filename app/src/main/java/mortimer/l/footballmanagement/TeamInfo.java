@@ -58,6 +58,9 @@
         private boolean currentUserIsOrganiser;
         User selectedPlayer;
 
+        // Popup window for player info
+        PopupWindow popupWindow;
+
         // Set to current team data in onCreate by default
         String currentInput = "";
         String newInput;
@@ -321,6 +324,11 @@
                 startActivity( homeScreenActivity );
             }
 
+            if( v.getId() == R.id.closePopup )
+            { // close the popup
+                popupWindow.dismiss();
+            }
+
             if( v.getId() == R.id.teamBioEdit || v.getId() == R.id.teamFootballEdit || v.getId() == R.id.teamNameEdit )
             { // Organiser attempts to update some of the team info
 
@@ -488,6 +496,9 @@
                     popupContainer = (ViewGroup) popupLayout.inflate( R.layout.player_view, null );
                 }
 
+                // Set listener for close button
+                popupContainer.findViewById( R.id.closePopup ).setOnClickListener( this );
+
                 // Populate the selected player item
 
                 // Display the player name
@@ -506,7 +517,7 @@
                 RelativeLayout parentLayout = findViewById( R.id.teamInfoRelLayout );
 
                 // Display popup window
-                PopupWindow popupWindow = new PopupWindow( popupContainer, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true );
+                popupWindow = new PopupWindow( popupContainer, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true );
                 popupWindow.showAtLocation( parentLayout, Gravity.CENTER, 0, 35 );
             }
 

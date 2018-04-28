@@ -7,12 +7,14 @@
     // Android imports
     import android.content.Intent;
     import android.support.design.widget.NavigationView;
+    import android.support.v4.view.GravityCompat;
     import android.support.v4.widget.DrawerLayout;
     import android.support.v7.app.AppCompatActivity;
     import android.os.Bundle;
     import android.support.v7.widget.Toolbar;
     import android.text.TextUtils;
     import android.view.Menu;
+    import android.view.MenuItem;
     import android.view.View;
     import android.widget.TextView;
     import android.widget.EditText;
@@ -56,6 +58,7 @@
             // Get string resources for pointers to database directories
             teamsPointer = getString( R.string.teams_pointer );
             userTeamPointer = getString( R.string.user_pointers );
+            userPointer = getString( R.string.no_team_users_pointer );
 
             // Custom toolbar setup
             Toolbar custToolBar = (Toolbar) findViewById( R.id.my_toolbar );
@@ -227,6 +230,17 @@
         { // Take the user back to the no team home screen
             Intent intent = new Intent(this, NoTeamHome.class );
             startActivity( intent );
+        }
+
+        @Override
+        public boolean onOptionsItemSelected( MenuItem item )
+        { // If navdraw icon selected, open the nav draw
+            if ( item.getItemId() == android.R.id.home )
+            {
+                navDraw.openDrawer( GravityCompat.START );
+                return true;
+            }
+            return super.onOptionsItemSelected( item );
         }
 
         @Override
