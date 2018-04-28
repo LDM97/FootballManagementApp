@@ -38,7 +38,7 @@
         <activity
             android:name=".TeamInfo"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".CreateTeam"
             android:screenOrientation="portrait" />
@@ -62,6 +62,11 @@
             android:name=".CommentsSection"
             android:label="@string/title_activity_comments_section"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ProfileManagement"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
     </application>
 

@@ -39,6 +39,12 @@
                     Intent teamInfoActivity = new Intent( context, TeamInfo.class );
                     context.startActivity( teamInfoActivity );
                     break;
+
+                case R.id.profileManagement :
+                    // Take user to the profile management screen
+                    Intent profileManagementActivity = new Intent( context, ProfileManagement.class );
+                    context.startActivity( profileManagementActivity );
+                    break;
             }
         }
 

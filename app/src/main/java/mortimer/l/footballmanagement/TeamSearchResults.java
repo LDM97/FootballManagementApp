@@ -87,14 +87,15 @@
             auth = FirebaseAuth.getInstance();
 
             // Nav drawer code
-            navDraw = findViewById(R.id.drawer_layout);
-            NavigationView navigationView = findViewById(R.id.nav_view);
+            navDraw = findViewById( R.id.drawer_layout );
+            NavigationView navigationView = findViewById( R.id.nav_view );
 
-            // Hide items, no team not allowed to navigate to team info screens
+            // Hide the menu items. User not part of a team, cannot view these screens. Can only logout
             Menu nav_Menu = navigationView.getMenu();
-            nav_Menu.findItem(R.id.teamCalendar).setVisible(false);
-            nav_Menu.findItem(R.id.discussionBoard).setVisible(false);
-            nav_Menu.findItem(R.id.teamInfo).setVisible(false);
+            nav_Menu.findItem( R.id.teamCalendar ).setVisible( false );
+            nav_Menu.findItem( R.id.discussionBoard ).setVisible( false );
+            nav_Menu.findItem( R.id.teamInfo ).setVisible( false );
+            nav_Menu.findItem( R.id.profileManagement ).setVisible( false );
 
             // Get the inputted query string
             final String QUERY = getIntent().getExtras().getString("mortimer.l.footballmanagement.query");

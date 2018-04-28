@@ -68,6 +68,7 @@
             nav_Menu.findItem( R.id.teamCalendar ).setVisible( false );
             nav_Menu.findItem( R.id.discussionBoard ).setVisible( false );
             nav_Menu.findItem( R.id.teamInfo ).setVisible( false );
+            nav_Menu.findItem( R.id.profileManagement ).setVisible( false );
 
             // Get the search view
             SearchView searchView = (SearchView) findViewById( R.id.teamSearch );

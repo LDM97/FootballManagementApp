@@ -57,7 +57,7 @@
         private ViewGroup postContainer;
         private ViewGroup commentsContainer;
 
-        // Get the text input for the comment a user can add and store the current post veinw viewed
+        // Get the text input for the comment a user can add and store the current post being viewed
         private EditText addCommentInput;
         private DiscussionItem currentPost;
 

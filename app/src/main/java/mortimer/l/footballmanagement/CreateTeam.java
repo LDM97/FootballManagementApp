@@ -6,10 +6,13 @@
 
     // Android imports
     import android.content.Intent;
+    import android.support.design.widget.NavigationView;
+    import android.support.v4.widget.DrawerLayout;
     import android.support.v7.app.AppCompatActivity;
     import android.os.Bundle;
     import android.support.v7.widget.Toolbar;
     import android.text.TextUtils;
+    import android.view.Menu;
     import android.view.View;
     import android.widget.TextView;
     import android.widget.EditText;
@@ -42,6 +45,7 @@
 
         // Firebase authenticator
         private FirebaseAuth auth;
+        private DrawerLayout navDraw;
 
         @Override
         protected void onCreate(Bundle savedInstanceState)
@@ -77,6 +81,17 @@
             // Setup the onclick listeners for the buttons on the screen
             findViewById( R.id.createTeamBtn ).setOnClickListener( this );
             findViewById( R.id.homeBtn ).setOnClickListener( this );
+
+            // Nav drawer code
+            navDraw = findViewById( R.id.drawer_layout );
+            NavigationView navigationView = findViewById( R.id.nav_view );
+
+            // Hide the menu items. User not part of a team, cannot view these screens. Can only logout
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem( R.id.teamCalendar ).setVisible( false );
+            nav_Menu.findItem( R.id.discussionBoard ).setVisible( false );
+            nav_Menu.findItem( R.id.teamInfo ).setVisible( false );
+            nav_Menu.findItem( R.id.profileManagement ).setVisible( false );
         }
 
         @Override

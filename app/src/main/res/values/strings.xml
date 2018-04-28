@@ -30,6 +30,7 @@
     <string name="team_info_title">Team Info</string>
     <string name="team_search_results">Search Results</string>
     <string name="login_title">Login</string>
+    <string name="profile_management">Profile</string>
 
     <!-- Firebase database directories -->
     <string name="user_pointers">UserTeamPointers</string>

@@ -286,9 +286,8 @@
 
         @Override
         public void onBackPressed()
-        { // Exit the app
-            finish();
-            System.exit(0);
+        { // On home screen, do nothing
+            return;
         }
 
         @Override

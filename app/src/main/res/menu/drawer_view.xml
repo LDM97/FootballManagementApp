@@ -14,5 +14,9 @@
             android:id="@+id/teamInfo"
             android:title="Team Info" />
 
+        <item
+            android:id="@+id/profileManagement"
+            android:title="Profile Management" />
+
     </group>
 </menu>
